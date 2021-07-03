@@ -4,11 +4,22 @@ import pygame
 class Unit:
     PADDING = 10
     OUTLINE = 2
-    def __init__(self, row, col, color):
+    def __init__(self, id, color, row, col):
+        self.id = id
         self.row = row
         self.col = col
-        self.color = color
-        self.shape = "circle"
+        
+        if self.id == 0:
+            self.color = "grey"
+
+        elif self.id == 1:
+            self.color = "red"
+
+        elif self.id == 2:
+            self.color = "blue"
+
+        else:
+            raise ValueError("Enter valid id (0, 1 or 2)")
 
         self.x = 0
         self.y = 0
@@ -23,5 +34,24 @@ class Unit:
         pygame.draw.circle(win, self.color, (self.x, self.y), radius)
 
 class Building:
-    pass
+    def __init__(self, id, color, row, col):
+        self.id = id
+        self.row = row
+        self.col = col
+        
+        if self.id == 0:
+            self.color = "grey"
+
+        elif self.id == 1:
+            self.color = "red"
+
+        elif self.id == 2:
+            self.color = "blue"
+
+        else:
+            raise ValueError("Enter valid id (0, 1 or 2)")
+
+    def draw(self, win):
+        length = SQUARE_SIZE
+        pygame.draw.rect(win, self.color)
 
