@@ -23,7 +23,8 @@ def main():
                 pass
         
         # Visualise
-        board.draw_squares(WIN)
+        board.generate_board(WIN)
+        print(board.board)
         pygame.display.update()
 
     pygame.quit()
