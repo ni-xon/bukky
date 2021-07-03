@@ -24,8 +24,7 @@ def main():
         
         # Visualise
         board.generate_board(WIN)
-        print(board.board)
         pygame.display.update()
-
+        print(board)
     pygame.quit()
 main()
