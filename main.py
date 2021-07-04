@@ -7,6 +7,9 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('RISK')
 
 board = Board()
+board.generate_board(WIN)
+piece = board.get_piece(1, 1)
+board.move(piece, 6, 6)
 
 def main():
     run = True
@@ -23,7 +26,7 @@ def main():
                 pass
         
         # Visualise
-        board.generate_board(WIN)
+        board.draw(WIN)
         pygame.display.update()
         print(board)
     pygame.quit()

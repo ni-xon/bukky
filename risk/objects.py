@@ -46,6 +46,11 @@ class Unit(Piece):
         self.x = SQUARE_SIZE * self.col + SQUARE_SIZE // 2
         self.y = SQUARE_SIZE * self.row + SQUARE_SIZE // 2
 
+    def move(self, row, col):
+        self.row = row
+        self.col = col
+        self.calc_pos()
+
     def draw(self, win):
         radius = SQUARE_SIZE // 2 - self.PADDING
         pygame.draw.circle(win, self.color, (self.x, self.y), radius)

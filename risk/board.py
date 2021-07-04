@@ -36,6 +36,13 @@ class Board:
                 if object != None:
                     object.draw(win)
 
+    def move(self, unit, row, col):
+        self.board[unit.row][unit.col], self.board[row][col] = self.board[row][col], self.board[unit.row][unit.col]
+        unit.move(row, col)
+
+    def get_piece(self, row, col):
+        return self.board[row][col]
+
     def create_initial_objects(self):
         p1_base = Building(id=1, row=0, col=0, power=0)
         self.board[0][0] = p1_base
@@ -53,7 +60,5 @@ class Board:
         self.create_initial_objects()
         self.draw(win)
 
-
-        
 
 
