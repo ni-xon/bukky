@@ -1,6 +1,6 @@
 import pygame
 from .constants import ROWS, COLS, BLACK, WHITE, DARK_GREEN, SQUARE_SIZE
-from .objects import Piece
+from .objects import Unit, Building, Piece
 from random import randint
 
 class Board:
@@ -36,18 +36,17 @@ class Board:
                 if object != None:
                     object.draw(win)
 
-
     def create_initial_objects(self):
-        p1_base = Piece(id=1, type="building", row=0, col=0)
+        p1_base = Building(id=1, row=0, col=0, power=0)
         self.board[0][0] = p1_base
 
-        n1_base = Piece(id=0, type="building", row=3, col=4)
+        n1_base = Building(id=0, row=3, col=4, power=0)
         self.board[0][1] = n1_base
 
-        p1_unit = Piece(id=1, type="unit", row=1, col=1)
+        p1_unit = Unit(id=1, row=1, col=1, power=0)
         self.board[1][1] = p1_unit
 
-        p2_base = Piece(id=2, type="building", row=7, col=7)
+        p2_base = Building(id=2, row=7, col=7, power=0)
         self.board[7][7] = p2_base
 
     def generate_board(self, win):
