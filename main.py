@@ -1,10 +1,17 @@
 import pygame
-from risk.constants import WIDTH, HEIGHT
+from risk.constants import SQUARE_SIZE, WIDTH, HEIGHT
 from risk.board import Board
 
 FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('RISK')
+
+def get_row_col_from_mouse(pos):
+    x_mouse, y_mouse = pos
+    row = y_mouse // SQUARE_SIZE
+    col = x_mouse // SQUARE_SIZE
+    return row, col
+
 
 board = Board()
 board.create_initial_objects()
