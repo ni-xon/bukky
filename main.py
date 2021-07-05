@@ -7,9 +7,9 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('RISK')
 
 board = Board()
-board.generate_board(WIN)
-piece = board.get_piece(1, 1)
-board.move(piece, 6, 6)
+board.create_initial_objects()
+piece = board.get_piece(1, 1) # For testing feel free to remove
+board.move(piece, 6, 6) # For testing feel free to remove
 
 def main():
     run = True
@@ -25,9 +25,9 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pass
         
-        # Visualise
+        # Draw the board and update pygame window screen
         board.draw(WIN)
         pygame.display.update()
-        print(board)
+
     pygame.quit()
 main()
