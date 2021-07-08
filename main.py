@@ -38,7 +38,3 @@ pygame.display.set_caption('RISK')
 board = Board()
 board.create_initial_objects()
 main()
-
-### TEST CODE OMG
-def joeisgay():
-    return "yes"
