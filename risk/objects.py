@@ -58,6 +58,9 @@ class Unit(Piece):
     def __repr__(self):
         return "Unit " + str(self.id)
 
+    def attack(self):
+        pass
+
 
 
 
