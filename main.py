@@ -9,7 +9,6 @@ pygame.display.set_caption('RISK')
 board = Board()
 board.create_initial_objects()
 piece = board.get_piece(1, 1) # For testing feel free to remove
-board.move(piece, 6, 6) # For testing feel free to remove
 
 def main():
     run = True
@@ -29,5 +28,8 @@ def main():
         board.draw(WIN)
         pygame.display.update()
 
+    print(board)
+    board.delete_piece(0, 0)
+    print(board)
     pygame.quit()
 main()
