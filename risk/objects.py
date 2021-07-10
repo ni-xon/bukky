@@ -58,15 +58,28 @@ class Unit(Piece):
     def __repr__(self):
         return "Unit " + str(self.id)
 
+
+
+
+
+
+
+
+
+
+
     # We need a 'board' argument, because we need to know which Board to delete from
     def delete_unit(self, board, row, col):
         board[row][col] = None
 
     # EXAMPLE FUNCTION of Tim's move()
     def move(self, piece, new_position):
+        
         #...
-         
-        if piece.position == new_position:
+
+        enemy_position = "An enemy unit's position"
+
+        if new_position == enemy_position:
             self.attack(piece, self.get_piece(new_position))
 
         #...
