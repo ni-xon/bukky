@@ -1,5 +1,5 @@
 import pygame
-from .constants import ROWS, COLS, BLACK, WHITE, DARK_GREEN, SQUARE_SIZE
+from .constants import *
 from .objects import Unit, Building, Piece
 
 class Board:
@@ -14,7 +14,7 @@ class Board:
 
         return output
 
-    def draw(self, win):
+    def intial_draw(self, win):
         win.fill(WHITE)
 
         # Draw green background
@@ -27,7 +27,7 @@ class Board:
             for col in range(COLS):
                 pygame.draw.rect(win, BLACK, (row*SQUARE_SIZE, col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
-
+    def update_draw(self,win):
         #### ADD FUNCTIONALITY FOR DRAWING FROM BOARD ARRAY
         for i in range(ROWS):
             for j in range(COLS):
@@ -54,5 +54,17 @@ class Board:
 
     def get_piece(self, row, col):
         return self.board[row][col]
+
+    def valid_move(self,piece,row_move,col_move):
+        if abs((row_move + col_move) - (piece.row + piece.col)) > 1:
+            return False
+        return True
+
+    def draw_valid_move(self,win,piece):
+        pygame.draw.rect(win, YELLOW, ((piece.row-1)*SQUARE_SIZE, piece.col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        pygame.draw.rect(win, YELLOW, ((piece.row+1)*SQUARE_SIZE, piece.col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        pygame.draw.rect(win, YELLOW, ((piece.row)*SQUARE_SIZE, (piece.col-1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        pygame.draw.rect(win, YELLOW, ((piece.row)*SQUARE_SIZE, (piece.col+1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+
 
 
