@@ -31,7 +31,7 @@ class Building(Piece):
         self.y = SQUARE_SIZE * self.row
 
     def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x+3, self.y+3, SQUARE_SIZE-6, SQUARE_SIZE-6))
+        pygame.draw.rect(win, self.color, (self.y+3, self.x+3, SQUARE_SIZE-6, SQUARE_SIZE-6))
 
     def __repr__(self):
         return "Building " + str(self.id)
@@ -58,6 +58,5 @@ class Unit(Piece):
     def __repr__(self):
         return "Unit " + str(self.id)
 
-
-
+ 
 
