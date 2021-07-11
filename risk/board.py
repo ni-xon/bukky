@@ -45,7 +45,7 @@ class Board:
         p1_unit = Unit(id=1, row=1, col=1, power=100)
         self.board[1][1] = p1_unit
         
-        p2_unit = Unit(id=2, row=1, col=2, power=64)
+        p2_unit = Unit(id=2, row=1, col=2, power=100)
         self.board[1][2] = p2_unit
 
         p2_base = Building(id=2, row=7, col=7, power=0)
@@ -81,3 +81,28 @@ class Board:
 
     def delete_piece(self, row, col):
         self.board[row][col] = None
+    
+
+    def attack(self, agg, vict):
+        # CASE 1: If aggressor kills victim:
+        if agg.power > vict.power:
+            # Aggressor loses health (but stays alive)
+            agg.power = agg.power - vict.power
+
+            # Victim is killed
+            self.delete_piece(vict.row, vict.col)
+
+        # CASE 2: If victim kills aggressor:
+        elif agg.power < vict.power:
+            # Victim loses health (but stays alive)
+            vict.power = vict.power - agg.power
+
+            # Aggressor is killed
+            self.delete_piece(agg.row, agg.col)
+
+        # CASE 3: Double Suicide -> if agg.power == vict.power
+        else:
+            # Both aggressor/victim are killed
+            self.delete_piece(vict.row, vict.col)
+            self.delete_piece(agg.row, agg.col)
+
