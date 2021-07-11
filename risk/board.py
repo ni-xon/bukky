@@ -30,7 +30,7 @@ class Board:
     def update_draw(self,win):
         pygame.init()
         number_font = pygame.font.Font( None, 16)
-        #### ADD FUNCTIONALITY FOR DRAWING FROM BOARD ARRAY
+        # DRAW PIECES AND HEALTH
         for i in range(ROWS):
             for j in range(COLS):
                 object = self.board[i][j]
@@ -53,8 +53,9 @@ class Board:
 
         p3_unit = Unit(id=2, row=1, col=3, power=150)
         self.board[1][3] = p3_unit
-        p2_base = Building(id=2, row=7, col=7, power=0)
-        self.board[7][7] = p2_base
+
+        p2_base = Building(id=2, row=4, col=4, power=0)
+        self.board[4][4] = p2_base
 
     def move(self, unit, row, col):
         self.board[unit.row][unit.col], self.board[row][col] = self.board[row][col], self.board[unit.row][unit.col]
@@ -111,11 +112,16 @@ class Board:
             self.delete_piece(vict.row, vict.col)
             self.delete_piece(agg.row, agg.col)
 
-
     def merge(self, merger, target):
         #Target's power gets incremented
         target.power = target.power + merger.power
-        
+    
         #Merger get's deleted
         self.delete_piece(merger.row, merger.col)
+
+    def spawn(self, building, row, col):
+        self.board[row][col] = Unit(id=building.id, row=row, col=col, power=100)
+
+
+
 
