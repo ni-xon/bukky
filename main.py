@@ -32,11 +32,14 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 row, col = get_position_mouse(pos)
-
+                
                 if selected == False:
-                    piece = board.get_piece(row,col)
-                    board.draw_valid_move(WIN,piece)
-                    selected = True
+                    try:
+                        piece = board.get_piece(row,col)
+                        board.draw_valid_move(WIN,piece)
+                        selected = True
+                    except AttributeError:
+                        pass
                 
                 elif selected == True:
                     if board.valid_move(piece,row,col) == True:
@@ -45,9 +48,6 @@ def main():
                         board.intial_draw(WIN)
                         selected = False
 
-
-
-        
         # Draw the board and update pygame window screen
         board.update_draw(WIN)
         pygame.display.update()

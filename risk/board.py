@@ -20,12 +20,12 @@ class Board:
         # Draw green background
         for row in range(ROWS):
             for col in range(COLS):
-                pygame.draw.rect(win, DARK_GREEN, (row*SQUARE_SIZE, col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+                pygame.draw.rect(win, DARK_GREEN, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
         # Draw grid
         for row in range(ROWS):
             for col in range(COLS):
-                pygame.draw.rect(win, BLACK, (row*SQUARE_SIZE, col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+                pygame.draw.rect(win, BLACK, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
     def update_draw(self,win):
         #### ADD FUNCTIONALITY FOR DRAWING FROM BOARD ARRAY
@@ -64,17 +64,12 @@ class Board:
     def draw_valid_move(self, win, piece):
         # UP
         pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row-1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-        print(piece.row-1, piece.col)
         # DOWN
         pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row+1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-        print(piece.row+1, piece.col)
         # LEFT
         pygame.draw.rect(win, YELLOW, ((piece.col-1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-        print(piece.row, piece.col-1)
         # RIGHT
         pygame.draw.rect(win, YELLOW, ((piece.col+1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-        print(piece.row, piece.col+1)
-        print("---")
 
 
 
