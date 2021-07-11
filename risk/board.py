@@ -58,10 +58,16 @@ class Board:
     def get_piece(self, row, col):
         return self.board[row][col]
 
-    def valid_move(self,piece,row_move,col_move):
-        if abs((row_move + col_move) - (piece.row + piece.col)) != 1:
-            return False
-        return True
+    def valid_move(self, piece, row_move, col_move):
+        valid_moves = []
+        valid_moves.append((piece.row + 1, piece.col))
+        valid_moves.append((piece.row, piece.col + 1))
+        valid_moves.append((piece.row - 1, piece.col))
+        valid_moves.append((piece.row, piece.col - 1))
+        
+        if (row_move, col_move) in valid_moves:
+            return True
+        return False
 
     def draw_valid_move(self, win, piece):
         # UP

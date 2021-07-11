@@ -33,16 +33,16 @@ def main():
                 
                 if selected == False:
                     try:
-                        piece = board.get_piece(row,col)
-                        board.draw_valid_move(WIN,piece)
+                        piece = board.get_piece(row, col)
+                        board.draw_valid_move(WIN, piece)
                         selected = True
                     except AttributeError:
                         pass
                 
                 elif selected == True:
-                    if board.valid_move(piece,row,col) == True:
+                    if board.valid_move(piece, row, col) == True:
                         board.move(piece, row, col)
-                        piece.move(row,col)
+                        piece.move(row, col)
                         board.intial_draw(WIN)
                         selected = False
 
