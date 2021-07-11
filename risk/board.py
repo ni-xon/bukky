@@ -106,3 +106,10 @@ class Board:
             self.delete_piece(vict.row, vict.col)
             self.delete_piece(agg.row, agg.col)
 
+
+    def merge(self, merger, target):
+        #Target's power gets incremented
+        target.power = target.power + merger.power
+        
+        #Merger get's deleted
+        self.delete_piece(merger.row, merger.col)
