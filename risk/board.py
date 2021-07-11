@@ -42,9 +42,11 @@ class Board:
         n1_base = Building(id=0, row=3, col=4, power=0)
         self.board[0][1] = n1_base
 
-        p1_unit = Unit(id=1, row=1, col=1, power=0)
+        p1_unit = Unit(id=1, row=1, col=1, power=100)
         self.board[1][1] = p1_unit
         
+        p2_unit = Unit(id=2, row=1, col=2, power=64)
+        self.board[1][2] = p2_unit
 
         p2_base = Building(id=2, row=7, col=7, power=0)
         self.board[7][7] = p2_base
@@ -71,5 +73,5 @@ class Board:
         # RIGHT
         pygame.draw.rect(win, YELLOW, ((piece.col+1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
-
-
+    def delete_piece(self, row, col):
+        self.board[row][col] = None

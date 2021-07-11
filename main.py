@@ -11,8 +11,6 @@ board = Board()
 board.create_initial_objects()
 board.intial_draw(WIN)
 
-
-
 def get_position_mouse(pos):
     x,y = pos
     row = y // SQUARE_SIZE
