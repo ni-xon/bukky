@@ -37,7 +37,7 @@ class Board:
                 if object != None:
                     object.draw(win)
                     number_text = str(object.power)
-                    number_image = number_font.render(number_text, True, BLACK)
+                    number_image = number_font.render(number_text, False, WHITE)
                     win.blit(number_image, (object.x, object.y))
 
 
