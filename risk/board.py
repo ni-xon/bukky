@@ -44,6 +44,7 @@ class Board:
 
         p1_unit = Unit(id=1, row=1, col=1, power=0)
         self.board[1][1] = p1_unit
+        
 
         p2_base = Building(id=2, row=7, col=7, power=0)
         self.board[7][7] = p2_base
@@ -56,14 +57,18 @@ class Board:
         return self.board[row][col]
 
     def valid_move(self,piece,row_move,col_move):
-        if abs((row_move + col_move) - (piece.row + piece.col)) > 1:
+        if abs((row_move + col_move) - (piece.row + piece.col)) != 1:
             return False
         return True
 
-    def draw_valid_move(self,win,piece):
+    def draw_valid_move(self, win, piece):
+        # UP
         pygame.draw.rect(win, YELLOW, ((piece.row-1)*SQUARE_SIZE, piece.col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        # DOWN
         pygame.draw.rect(win, YELLOW, ((piece.row+1)*SQUARE_SIZE, piece.col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        # LEFT
         pygame.draw.rect(win, YELLOW, ((piece.row)*SQUARE_SIZE, (piece.col-1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        # RIGHT
         pygame.draw.rect(win, YELLOW, ((piece.row)*SQUARE_SIZE, (piece.col+1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
 
