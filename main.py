@@ -21,6 +21,8 @@ def main():
     run = True
     clock = pygame.time.Clock()
     selected = False
+
+    
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -40,13 +42,25 @@ def main():
                         pass
                 
                 elif selected == True:
+
                     if board.valid_move(piece, row, col) == True:
                         #if there is a Unit/Building here
                         if board.get_piece(row,col) != None:
-                            victim = board.get_piece(row,col)
-                            board.attack(piece,victim)
-                            board.intial_draw(WIN)
-                            selected = False
+                            
+                            # Checking friendly unit (merge)
+                            if board.get_piece(row,col).id == piece.id:
+                                target = board.get_piece(row,col)
+                                board.merge(piece,target)
+                                board.intial_draw(WIN)
+                                selected = False
+                                
+                            # Checking enemy unit (attack)
+                            else:
+                                victim = board.get_piece(row,col)
+                                board.attack(piece,victim)
+                                board.intial_draw(WIN)
+                                selected = False
+
 
                         else:
                             board.move(piece, row, col)

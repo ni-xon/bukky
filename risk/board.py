@@ -45,9 +45,11 @@ class Board:
         p1_unit = Unit(id=1, row=1, col=1, power=100)
         self.board[1][1] = p1_unit
         
-        p2_unit = Unit(id=2, row=1, col=2, power=100)
+        p2_unit = Unit(id=1, row=1, col=2, power=100)
         self.board[1][2] = p2_unit
 
+        p3_unit = Unit(id=2, row=1, col=3, power=150)
+        self.board[1][3] = p3_unit
         p2_base = Building(id=2, row=7, col=7, power=0)
         self.board[7][7] = p2_base
 
