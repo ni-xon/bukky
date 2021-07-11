@@ -2,7 +2,6 @@ import pygame
 from risk.constants import *
 from risk.board import Board
 from risk.objects import *
-
 FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('RISK')
@@ -10,6 +9,7 @@ pygame.display.set_caption('RISK')
 board = Board()
 board.create_initial_objects()
 board.intial_draw(WIN)
+
 
 def get_position_mouse(pos):
     x,y = pos
@@ -42,6 +42,8 @@ def main():
                         pass
                 
                 elif selected == True:
+                    
+                    #Health displa
 
                     if board.valid_move(piece, row, col) == True:
                         #if there is a Unit/Building here

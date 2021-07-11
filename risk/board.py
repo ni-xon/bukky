@@ -28,19 +28,22 @@ class Board:
                 pygame.draw.rect(win, BLACK, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
     def update_draw(self,win):
+        pygame.init()
+        number_font = pygame.font.Font( None, 16)
         #### ADD FUNCTIONALITY FOR DRAWING FROM BOARD ARRAY
         for i in range(ROWS):
             for j in range(COLS):
                 object = self.board[i][j]
                 if object != None:
                     object.draw(win)
+                    number_text = str(object.power)
+                    number_image = number_font.render(number_text, True, BLACK)
+                    win.blit(number_image, (object.x, object.y))
+
 
     def create_initial_objects(self):
         p1_base = Building(id=1, row=0, col=0, power=0)
         self.board[0][0] = p1_base
-
-        n1_base = Building(id=0, row=3, col=4, power=0)
-        self.board[0][1] = n1_base
 
         p1_unit = Unit(id=1, row=1, col=1, power=100)
         self.board[1][1] = p1_unit
@@ -115,3 +118,4 @@ class Board:
         
         #Merger get's deleted
         self.delete_piece(merger.row, merger.col)
+
