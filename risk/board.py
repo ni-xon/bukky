@@ -40,7 +40,7 @@ class Board:
         self.board[0][0] = p1_base
 
         n1_base = Building(id=0, row=3, col=4, power=0)
-        self.board[0][1] = n1_base
+        self.board[3][4] = n1_base
 
         p1_unit = Unit(id=1, row=1, col=1, power=100)
         self.board[1][1] = p1_unit
@@ -105,4 +105,10 @@ class Board:
             # Both aggressor/victim are killed
             self.delete_piece(vict.row, vict.col)
             self.delete_piece(agg.row, agg.col)
+
+    def spawn(self, building, row, col):
+        self.board[row][col] = Unit(id=building.id, row=row, col=col, power=100)
+
+
+
 
