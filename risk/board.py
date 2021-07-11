@@ -1,5 +1,5 @@
 import pygame
-from .constants import ROWS, COLS, BLACK, WHITE, DARK_GREEN, SQUARE_SIZE
+from .constants import *
 from .objects import Unit, Building, Piece
 
 class Board:
@@ -14,20 +14,20 @@ class Board:
 
         return output
 
-    def draw(self, win):
+    def intial_draw(self, win):
         win.fill(WHITE)
 
         # Draw green background
         for row in range(ROWS):
             for col in range(COLS):
-                pygame.draw.rect(win, DARK_GREEN, (row*SQUARE_SIZE, col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+                pygame.draw.rect(win, DARK_GREEN, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
         # Draw grid
         for row in range(ROWS):
             for col in range(COLS):
-                pygame.draw.rect(win, BLACK, (row*SQUARE_SIZE, col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+                pygame.draw.rect(win, BLACK, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
-
+    def update_draw(self,win):
         #### ADD FUNCTIONALITY FOR DRAWING FROM BOARD ARRAY
         for i in range(ROWS):
             for j in range(COLS):
@@ -51,8 +51,6 @@ class Board:
         p2_base = Building(id=2, row=7, col=7, power=0)
         self.board[7][7] = p2_base
 
-    
-
     def move(self, unit, row, col):
         self.board[unit.row][unit.col], self.board[row][col] = self.board[row][col], self.board[unit.row][unit.col]
         unit.move(row, col)
@@ -60,7 +58,20 @@ class Board:
     def get_piece(self, row, col):
         return self.board[row][col]
 
+    def valid_move(self,piece,row_move,col_move):
+        if abs((row_move + col_move) - (piece.row + piece.col)) != 1:
+            return False
+        return True
+
+    def draw_valid_move(self, win, piece):
+        # UP
+        pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row-1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        # DOWN
+        pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row+1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        # LEFT
+        pygame.draw.rect(win, YELLOW, ((piece.col-1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        # RIGHT
+        pygame.draw.rect(win, YELLOW, ((piece.col+1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+
     def delete_piece(self, row, col):
         self.board[row][col] = None
-
-

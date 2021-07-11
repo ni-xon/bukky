@@ -31,7 +31,7 @@ class Building(Piece):
         self.y = SQUARE_SIZE * self.row
 
     def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x+3, self.y+3, SQUARE_SIZE-6, SQUARE_SIZE-6))
+        pygame.draw.rect(win, self.color, (self.y+3, self.x+3, SQUARE_SIZE-6, SQUARE_SIZE-6))
 
     def __repr__(self):
         return "Building " + str(self.id)
@@ -58,31 +58,21 @@ class Unit(Piece):
     def __repr__(self):
         return "Unit " + str(self.id)
 
-
-
-
-
-
-
-
-
-
-
     # We need a 'board' argument, because we need to know which Board to delete from
     def delete_unit(self, board, row, col):
         board[row][col] = None
 
-    # EXAMPLE FUNCTION of Tim's move()
-    def move(self, piece, new_position):
+    # # EXAMPLE FUNCTION of Tim's move()
+    # def move(self, piece, new_position):
         
-        #...
+    #     #...
 
-        enemy_position = "An enemy unit's position"
+    #     enemy_position = "An enemy unit's position"
 
-        if new_position == enemy_position:
-            self.attack(piece, self.get_piece(new_position))
+    #     if new_position == enemy_position:
+    #         self.attack(piece, self.get_piece(new_position))
 
-        #...
+    #     #...
 
     # ASSUMPTION: attack() method will ONLY be called when a unit moves onto an enemy unit
     def attack(self, board, agg, vict):
