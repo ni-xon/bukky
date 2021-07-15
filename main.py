@@ -2,11 +2,13 @@ import pygame
 from risk.constants import *
 from risk.board import Board
 from risk.objects import *
+from risk.turn import Turn
 FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('RISK')
 
 board = Board()
+turn = Turn()
 board.create_initial_objects()
 board.intial_draw(WIN)
 
@@ -33,13 +35,19 @@ def main():
                 pos = pygame.mouse.get_pos()
                 row, col = get_position_mouse(pos)
 
-                # HANDLE MENU ROW, COL SELECTION
-                if col == 5:
-                    pass
+                # NEXT TURN BUTTON TO CHANGE TURN
+                if col == COLS:
+                    if row == 0:
+                        turn.change_turn()
                 
                 elif selected == False:
                     try:
                         piece = board.get_piece(row, col)
+
+                        ##
+                        if turn.current_player != piece.id:
+                            raise AttributeError
+                        ##
                         board.draw_valid_move(WIN, piece)
                         selected = True
                     except AttributeError:

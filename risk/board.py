@@ -27,7 +27,7 @@ class Board:
             for col in range(COLS):
                 pygame.draw.rect(win, BLACK, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
-        pygame.draw.rect(win,BLACK,((5*SQUARE_SIZE)-1,0,SQUARE_SIZE+1,SQUARE_SIZE+1))
+        pygame.draw.rect(win,BLACK,((COLS*SQUARE_SIZE)-1,0,SQUARE_SIZE+1,SQUARE_SIZE+1))
 
 
 
