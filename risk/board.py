@@ -97,6 +97,9 @@ class Board:
             pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row-1) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col) + SQUARE_SIZE // 2 ), radius, width = 1)
             pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col-1) + SQUARE_SIZE // 2 ), radius, width = 1)
     
+        else:
+            raise AttributeError
+
     def delete_piece(self, row, col):
         self.board[row][col] = None
     
