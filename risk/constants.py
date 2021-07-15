@@ -14,3 +14,6 @@ GRAY = (128, 128, 128)
 YELLOW = (255, 255, 0)
 DARK_GREEN = (3, 125, 80)
 
+#
+NO_PLAYERS = 4
+
