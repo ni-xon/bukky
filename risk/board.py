@@ -76,19 +76,26 @@ class Board:
         return False
 
     def draw_valid_move(self, win, piece):
-        # UP
-        pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row-1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-        # DOWN
-        pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row+1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-        # LEFT
-        pygame.draw.rect(win, YELLOW, ((piece.col-1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-        # RIGHT
-        pygame.draw.rect(win, YELLOW, ((piece.col+1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+        if type(piece) == Unit:
+            # UP
+            pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row-1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+            # DOWN
+            pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row+1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+            # LEFT
+            pygame.draw.rect(win, YELLOW, ((piece.col-1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+            # RIGHT
+            pygame.draw.rect(win, YELLOW, ((piece.col+1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
+        elif type(piece) == Building:
+            radius = (SQUARE_SIZE // 2) - 40
+            pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row+1) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col) + SQUARE_SIZE // 2 ), radius, width = 1)
+            pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col+1) + SQUARE_SIZE // 2 ), radius, width = 1)
+            pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row-1) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col) + SQUARE_SIZE // 2 ), radius, width = 1)
+            pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col-1) + SQUARE_SIZE // 2 ), radius, width = 1)
+    
     def delete_piece(self, row, col):
         self.board[row][col] = None
     
-
     def attack(self, agg, vict):
         # CASE 1: If aggressor kills victim:
         if agg.power > vict.power:
@@ -113,10 +120,10 @@ class Board:
             self.delete_piece(agg.row, agg.col)
 
     def merge(self, merger, target):
-        #Target's power gets incremented
+        # Target's power gets incremented
         target.power = target.power + merger.power
     
-        #Merger get's deleted
+        # Merger get's deleted
         self.delete_piece(merger.row, merger.col)
 
     def spawn(self, building, row, col):
