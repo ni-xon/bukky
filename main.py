@@ -33,15 +33,19 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 row, col = get_position_mouse(pos)
+
+                # HANDLE MENU ROW, COL SELECTION
+                if col == 5:
+                    pass
                 
-                if selected == False:
+                elif selected == False:
                     try:
                         piece = board.get_piece(row, col)
                         board.draw_valid_move(WIN, piece)
                         selected = True
                     except AttributeError:
                         pass
-                
+
                 elif selected == True:
                     if board.valid_move(piece, row, col) == True:
                         # If there is a Unit/Building here
