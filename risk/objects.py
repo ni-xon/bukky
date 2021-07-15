@@ -1,4 +1,4 @@
-from .constants import SQUARE_SIZE, RED, BLUE, GRAY
+from .constants import *
 import pygame
 
 
@@ -40,6 +40,8 @@ class Building(Piece):
 class Unit(Piece):
     def __init__(self, id, row, col, power):
         super(Unit, self).__init__(id, row, col, power)
+        self.initial_action_points = 2
+        self.action_points = 2
         self.calc_pos()
 
     def calc_pos(self):
@@ -54,6 +56,7 @@ class Unit(Piece):
     def draw(self, win):
         radius = SQUARE_SIZE // 2 - self.PADDING
         pygame.draw.circle(win, self.color, (self.x, self.y), radius)
+
 
     def __repr__(self):
         return "Unit " + str(self.id)

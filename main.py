@@ -39,15 +39,18 @@ def main():
                 if col == COLS:
                     if row == 0:
                         turn.change_turn()
+                        board.reset_action_points()
                 
                 elif selected == False:
                     try:
                         piece = board.get_piece(row, col)
 
-                        ##
                         if turn.current_player != piece.id:
                             raise AttributeError
-                        ##
+
+                        if piece.action_points <= 0:
+                            raise AttributeError
+
                         board.draw_valid_move(WIN, piece)
                         selected = True
                     except AttributeError:
@@ -66,10 +69,12 @@ def main():
                                 else:
                                     victim = board.get_piece(row, col)
                                     board.attack(piece,victim)
+                                    piece.action_points -= 1
                         else:
                             if type(piece) == Unit:
                                 board.move(piece, row, col)
                                 piece.move(row, col)
+                                piece.action_points -= 1
 
                             elif type(piece) == Building:
                                 board.spawn(piece, row, col)

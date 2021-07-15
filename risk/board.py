@@ -136,6 +136,10 @@ class Board:
     def spawn(self, building, row, col):
         self.board[row][col] = Unit(id=building.id, row=row, col=col, power=100)
 
-
-
+    def reset_action_points(self):
+        for row in range(ROWS):
+            for col in range(COLS):
+                object = self.board[row][col]
+                if type(object) == Unit:
+                    object.action_points = object.initial_action_points
 
