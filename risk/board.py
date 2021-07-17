@@ -77,6 +77,10 @@ class Board:
         valid_moves.append((piece.row - 1, piece.col))
         valid_moves.append((piece.row, piece.col - 1))
 
+        if type(piece) == Unit:
+            if self.enough_action_points(piece) is False:
+                valid_moves = []
+                
         return valid_moves
 
     def delete_piece(self, row, col):

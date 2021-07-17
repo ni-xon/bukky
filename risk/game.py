@@ -45,7 +45,7 @@ class Game:
         return
 
     def select(self, row, col):
-        # INCLUDE HANDLER FOR CLICKING MENU HERE
+        # Handler for clicking menu
         menu = COLS
         if col == menu:
             self.menu(row, col) 
@@ -72,11 +72,12 @@ class Game:
 
                     self.selected.action_points -= 1
 
-            elif type(self.selected) == Building:
+            elif type(self.selected) == Building and (row, col) in self.valid_moves:
                 self.board.spawn(self.current_player, row, col)
 
             # This code chunk deselects
             self.selected = None
+            self.valid_moves = []
             return
 
         # If valid select
