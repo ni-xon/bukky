@@ -10,7 +10,7 @@ pygame.display.set_caption('FRISK')
 
 def get_position_mouse(pos):
     """Takes in a pos tuple (x, y) and returns appropriate (row, col) tuple according to board."""
-    x,y = pos
+    x, y = pos
     row = y // SQUARE_SIZE
     col = x // SQUARE_SIZE
     return row, col

@@ -14,7 +14,7 @@ class Board:
             output += f"{self.board[row]}\n"
 
         return output
-        
+
 
     def initial_draw(self, win):
         win.fill(WHITE)
@@ -113,8 +113,8 @@ class Board:
         # Merger gets deleted
         self.delete_piece(merger.row, merger.col)
 
-    def spawn(self, building, row, col):
-        self.board[row][col] = Unit(id=building.id, row=row, col=col, power=100)
+    def spawn(self, id, row, col):
+        self.board[row][col] = Unit(id=id, row=row, col=col, power=100)
 
     def reset_action_points(self):
         """Resets action points for all piece objects on board."""
@@ -123,3 +123,9 @@ class Board:
                 object = self.board[row][col]
                 if type(object) == Unit:
                     object.action_points = object.initial_action_points
+
+    def enough_action_points(self, unit):
+        if unit.action_points > 0:
+            return True
+
+        return False

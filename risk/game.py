@@ -1,6 +1,7 @@
 import pygame
 from .board import Board
 from .constants import *
+from .objects import *
 
 class Game:
     def __init__(self, win):
@@ -35,34 +36,54 @@ class Game:
         self.turn_counter += 1
         self.current_player = (self.turn_counter % self.number_of_players) + 1
 
+    def menu(self, row, col):
+        # Handler for clicking change turns button
+        if row == 0:
+            self.change_turn()
+            self.board.reset_action_points()
+
+        return
+
     def select(self, row, col):
         # INCLUDE HANDLER FOR CLICKING MENU HERE
+        menu = COLS
+        if col == menu:
+            self.menu(row, col) 
+            return
 
-        if self.selected:
-            result = self._move(row, col)
-            if not result:
-                self.selected = None
-                self.select(row, col)
+        # Obtain target click
+        target = self.board.get_piece(row, col)
 
-        piece = self.board.get_piece(row, col)
+        # If something is already selected in the previous iteration
+        if self.selected != None:
+            if type(self.selected) == Unit:
+                if (row, col) in self.valid_moves and self.board.enough_action_points(self.selected):
+                    if target == None:
+                        self.board.move(self.selected, row, col)
+
+                    elif target != None:
+                        # Merge
+                        if self.selected.id == target.id:
+                            self.board.merge(self.selected, target)
+
+                        # Attack
+                        elif self.selected.id != target.id:
+                            self.board.attack(self.selected, target)
+
+                    self.selected.action_points -= 1
+
+            elif type(self.selected) == Building:
+                self.board.spawn(self.current_player, row, col)
+
+            # This code chunk deselects
+            self.selected = None
+            return
+
         # If valid select
-        if piece != None and piece.id == self.current_player:
-            self.selected = piece
-            self.valid_moves = self.board.get_valid_moves(piece)
+        if target != None and target.id == self.current_player:
+            self.selected = target
+            self.valid_moves = self.board.get_valid_moves(target)
             return True # returns back to main
 
         return False # returns back to main
         
-    def _move(self, row, col):
-        piece = self.board.get_piece(row, col)
-        if self.selected and piece == None and (row, col) in self.valid_moves:
-            self.board.move(self.selected, row, col)
-            self.change_turn()
-
-        else:
-            return False
-
-        return True
-
-    def _attack(self, row, col):
-        pass
