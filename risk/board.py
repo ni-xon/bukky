@@ -2,6 +2,7 @@ import pygame
 from .constants import *
 from .objects import Unit, Building, Piece
 
+
 class Board:
     def __init__(self):
         self.board = [[None for _ in range(COLS)] for _ in range(ROWS)]
@@ -29,8 +30,6 @@ class Board:
 
         pygame.draw.rect(win,BLACK,((COLS*SQUARE_SIZE)-1,0,SQUARE_SIZE+1,SQUARE_SIZE+1))
 
-
-
     def update_draw(self,win):
         pygame.init()
         number_font = pygame.font.Font( None, 16)
@@ -43,7 +42,6 @@ class Board:
                     number_text = str(object.power)
                     number_image = number_font.render(number_text, False, WHITE)
                     win.blit(number_image, (object.x, object.y))
-
 
     def create_initial_objects(self):
         p1_base = Building(id=1, row=0, col=0, power=0)
@@ -142,4 +140,3 @@ class Board:
                 object = self.board[row][col]
                 if type(object) == Unit:
                     object.action_points = object.initial_action_points
-

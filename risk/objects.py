@@ -57,7 +57,6 @@ class Unit(Piece):
         radius = SQUARE_SIZE // 2 - self.PADDING
         pygame.draw.circle(win, self.color, (self.x, self.y), radius)
 
-
     def __repr__(self):
         return "Unit " + str(self.id)
 

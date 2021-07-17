@@ -3,16 +3,17 @@ from risk.constants import *
 from risk.board import Board
 from risk.objects import *
 from risk.turn import Turn
+
 FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('RISK')
-
 board = Board()
 turn = Turn()
 board.create_initial_objects()
 board.intial_draw(WIN)
 
 def get_position_mouse(pos):
+    """Takes in a pos tuple (x, y) and returns appropriate (row, col) tuple according to board."""
     x,y = pos
     row = y // SQUARE_SIZE
     col = x // SQUARE_SIZE
@@ -30,17 +31,20 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-            # If click is detected
+            # Handler for mouse button click
             if event.type == pygame.MOUSEBUTTONDOWN:
+                # Get row, col according to dimensions of board array
                 pos = pygame.mouse.get_pos()
                 row, col = get_position_mouse(pos)
 
-                # NEXT TURN BUTTON TO CHANGE TURN
+                # Handler for clicking menu
                 if col == COLS:
+                    # Handler for clicking change turns button
                     if row == 0:
                         turn.change_turn()
                         board.reset_action_points()
                 
+                # Initial piece selection
                 elif selected == False:
                     try:
                         piece = board.get_piece(row, col)
@@ -56,6 +60,7 @@ def main():
                     except AttributeError:
                         pass
 
+                # Target selection
                 elif selected == True:
                     if board.valid_move(piece, row, col) == True:
                         # If there is a Unit/Building here
@@ -85,7 +90,5 @@ def main():
         # Draw the board and update pygame window screen
         board.update_draw(WIN)
         pygame.display.update()
-
     pygame.quit()
-
 main()
