@@ -2,7 +2,7 @@ import pygame
 from risk.constants import *
 from risk.board import Board
 from risk.objects import *
-from risk.turn import Turn
+from risk.game import *
 
 FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -78,13 +78,12 @@ def main():
                         else:
                             if type(piece) == Unit:
                                 board.move(piece, row, col)
-                                piece.move(row, col)
                                 piece.action_points -= 1
 
                             elif type(piece) == Building:
                                 board.spawn(piece, row, col)
 
-                    board.intial_draw(WIN)
+                    board.initial_draw(WIN)
                     selected = False
                                 
         # Draw the board and update pygame window screen

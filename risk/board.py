@@ -14,8 +14,9 @@ class Board:
             output += f"{self.board[row]}\n"
 
         return output
+        
 
-    def intial_draw(self, win):
+    def initial_draw(self, win):
         win.fill(WHITE)
 
         # Draw green background
@@ -28,12 +29,13 @@ class Board:
             for col in range(COLS):
                 pygame.draw.rect(win, BLACK, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
-        pygame.draw.rect(win,BLACK,((COLS*SQUARE_SIZE)-1,0,SQUARE_SIZE+1,SQUARE_SIZE+1))
+        # Draw end turn button
+        pygame.draw.rect(win, BLACK, ((COLS*SQUARE_SIZE)-1,0,SQUARE_SIZE+1,SQUARE_SIZE+1))
 
-    def update_draw(self,win):
+    def update_draw(self, win):
         pygame.init()
         number_font = pygame.font.Font( None, 16)
-        # DRAW PIECES AND HEALTH
+        # Draw pieces and health
         for i in range(ROWS):
             for j in range(COLS):
                 object = self.board[i][j]
@@ -59,44 +61,23 @@ class Board:
         p2_base = Building(id=2, row=4, col=4, power=0)
         self.board[4][4] = p2_base
 
-    def move(self, unit, row, col):
-        self.board[unit.row][unit.col], self.board[row][col] = self.board[row][col], self.board[unit.row][unit.col]
-        unit.move(row, col)
+    def move(self, piece, row, col):
+        """Moves a piece on board array."""
+        self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
+        piece.move(row, col)
 
     def get_piece(self, row, col):
+        """Returns piece object located at (row, col) on board array."""
         return self.board[row][col]
 
-    def valid_move(self, piece, row_move, col_move):
+    def get_valid_moves(self, piece):
         valid_moves = []
         valid_moves.append((piece.row + 1, piece.col))
         valid_moves.append((piece.row, piece.col + 1))
         valid_moves.append((piece.row - 1, piece.col))
         valid_moves.append((piece.row, piece.col - 1))
-        
-        if (row_move, col_move) in valid_moves:
-            return True
-        return False
 
-    def draw_valid_move(self, win, piece):
-        if type(piece) == Unit:
-            # UP
-            pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row-1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-            # DOWN
-            pygame.draw.rect(win, YELLOW, (piece.col*SQUARE_SIZE, (piece.row+1)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-            # LEFT
-            pygame.draw.rect(win, YELLOW, ((piece.col-1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-            # RIGHT
-            pygame.draw.rect(win, YELLOW, ((piece.col+1)*SQUARE_SIZE, (piece.row)*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-
-        elif type(piece) == Building:
-            radius = (SQUARE_SIZE // 2) - 40
-            pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row+1) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col) + SQUARE_SIZE // 2 ), radius, width = 1)
-            pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col+1) + SQUARE_SIZE // 2 ), radius, width = 1)
-            pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row-1) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col) + SQUARE_SIZE // 2 ), radius, width = 1)
-            pygame.draw.circle(win, YELLOW, (SQUARE_SIZE * (piece.row) + SQUARE_SIZE // 2,SQUARE_SIZE * (piece.col-1) + SQUARE_SIZE // 2 ), radius, width = 1)
-    
-        else:
-            raise AttributeError
+        return valid_moves
 
     def delete_piece(self, row, col):
         self.board[row][col] = None
@@ -125,16 +106,18 @@ class Board:
             self.delete_piece(agg.row, agg.col)
 
     def merge(self, merger, target):
+        """Merges 2 piece objects of the same player id."""
         # Target's power gets incremented
         target.power = target.power + merger.power
     
-        # Merger get's deleted
+        # Merger gets deleted
         self.delete_piece(merger.row, merger.col)
 
     def spawn(self, building, row, col):
         self.board[row][col] = Unit(id=building.id, row=row, col=col, power=100)
 
     def reset_action_points(self):
+        """Resets action points for all piece objects on board."""
         for row in range(ROWS):
             for col in range(COLS):
                 object = self.board[row][col]
