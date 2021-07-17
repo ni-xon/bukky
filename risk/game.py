@@ -9,13 +9,13 @@ class Game:
 
     def _init(self):
         """Initialises all variables and board object for a new game."""
-        self.selected = False
+        self.selected = None
         self.board = Board()
         self.board.create_initial_objects()
         self.current_player = 1
         self.turn_counter = 0
         self.number_of_players = 2
-        self.valid_moves = {}
+        self.valid_moves = []
 
     def update(self):
         self.board.initial_draw(self.win)
@@ -36,19 +36,22 @@ class Game:
         self.current_player = (self.turn_counter % self.number_of_players) + 1
 
     def select(self, row, col):
+        # INCLUDE HANDLER FOR CLICKING MENU HERE
+
         if self.selected:
             result = self._move(row, col)
             if not result:
-                self.selected = False
+                self.selected = None
                 self.select(row, col)
 
         piece = self.board.get_piece(row, col)
+        # If valid select
         if piece != None and piece.id == self.current_player:
             self.selected = piece
             self.valid_moves = self.board.get_valid_moves(piece)
-            return True
-e
-        return False
+            return True # returns back to main
+
+        return False # returns back to main
         
     def _move(self, row, col):
         piece = self.board.get_piece(row, col)
