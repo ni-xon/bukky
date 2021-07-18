@@ -1,6 +1,7 @@
 import pygame
 from .constants import *
 from .objects import Unit, Building, Piece
+import random
 
 
 class Board:
@@ -8,22 +9,86 @@ class Board:
         self.board = [[None for _ in range(COLS)] for _ in range(ROWS)]
         self.player_gold = [500 for i in range(NO_PLAYERS)]
 
+        # TERRITORY THINGS
+        self.territories = [[None for _ in range(COLS)] for _ in range(ROWS)]
+        self._create_territories()
+
+
     def __str__(self):
         output = ""
         for row in range(ROWS):
             output += f"{self.board[row]}\n"
         return output
 
+    def _territories_do_not_fill_the_board(self, ter_list):
+        filled_in_squares = 0
+        for territory in ter_list:
+            filled_in_squares += len(territory)
+
+        return filled_in_squares < (ROWS*COLS)
+
+    def _not_beyond_the_realms(self, pos):
+        # MAKE MORE EFFICENT LATER
+        if (pos[0]>(ROWS-1) or pos[0]<0 or pos[1]>(ROWS-1) or pos[1]<0):
+            return False
+
+        return True
+        # return not (pos[0]>(ROWS-1) or pos[0]<0 or pos[1]>(ROWS-1) or pos[1]<0)
+
+    def _does_not_overlap(self, pos):
+        return self.territories[pos[0]][pos[1]] is None
+
+    def _create_territories(self):
+        ter_list = []
+
+        # Randomly initalise territory 'seeds'
+        for i in range(1, TER_NUM+1):
+
+            # Generate a random territory position
+            ter_x = random.randint(1, ROWS-2)
+            ter_y = random.randint(1, ROWS-2)
+
+            # While ter_pos already exists in the -territory list-, keep generating random territory positions
+            while (ter_x, ter_y) in ter_list:
+                ter_x = random.randint(1, ROWS-2)
+                ter_y = random.randint(1, ROWS-2)
+            # INV: at the end of this while loop, ter_pos contains a territory position that is NOT in the -territory list-
+
+            if self._does_not_overlap((ter_x, ter_y)):
+                ter_list.append([(ter_x, ter_y, i)])
+                self.territories[ter_x][ter_y] = i
+
+        # Grow the 'seeds' until the board is full
+        while self._territories_do_not_fill_the_board(ter_list):###################
+            
+            # Give each 'seed' a chance to grow
+            for territory in ter_list:
+                head = territory[random.randint(0, len(territory)-1)]
+                # Create a random movement
+                move_x = random.randint(-1, 1)
+                move_y = random.randint(-1, 1)
+                pos = (head[0]+move_x, head[1]+move_y, head[2])
+
+                if self._not_beyond_the_realms(pos) and self._does_not_overlap(pos):
+                    territory.append(pos)
+                    self.territories[pos[0]][pos[1]] = head[2]
+        
+        print(ter_list)
+        print(self.territories)
+
+    def _draw_territories(self, win):
+        # Draw green background
+        for row in range(ROWS):
+            for col in range(COLS):
+                adder = self.territories[row][col]*10
+                pygame.draw.rect(win, (DARK_GREEN[0]+adder, DARK_GREEN[1], DARK_GREEN[2]), (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
     def draw(self, win):
         """Draws and paints the entire game onto the window."""
         # Draw white background
         win.fill(WHITE)
 
-        # Draw green background
-        for row in range(ROWS):
-            for col in range(COLS):
-                pygame.draw.rect(win, DARK_GREEN, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+        self._draw_territories(win)
 
         # Draw grid
         for row in range(ROWS):

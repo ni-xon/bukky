@@ -1,7 +1,7 @@
 import pygame
 
 WIDTH, HEIGHT = 600, 500
-ROWS, COLS = 5, 5
+ROWS, COLS = 10, 10
 SQUARE_SIZE = HEIGHT // COLS
 
 # RGB
@@ -17,3 +17,6 @@ DARK_GREEN = (3, 125, 80)
 #
 NO_PLAYERS = 2
 
+
+# Territory Constants
+TER_NUM = ROWS      # "How to calc #Territories" can be changed later with team
