@@ -1,4 +1,5 @@
 import pygame
+import random
 
 WIDTH, HEIGHT = 600, 500
 ROWS, COLS = 10, 10
@@ -20,3 +21,8 @@ NO_PLAYERS = 2
 
 # Territory Constants
 TER_NUM = ROWS      # "How to calc #Territories" can be changed later with team
+
+COLOUR_LIST = []
+for _ in range(TER_NUM):
+    COLOUR_LIST.append(tuple(random.choices(range(256), k=3)))
+

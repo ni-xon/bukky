@@ -65,9 +65,8 @@ class Board:
             for territory in ter_list:
                 head = territory[random.randint(0, len(territory)-1)]
                 # Create a random movement
-                move_x = random.randint(-1, 1)
-                move_y = random.randint(-1, 1)
-                pos = (head[0]+move_x, head[1]+move_y, head[2])
+                random_move = random.choice([(0, 0), (-1, 0), (1, 0), (0, -1), (0, 1)])
+                pos = (head[0]+random_move[0], head[1]+random_move[1], head[2])
 
                 if self._not_beyond_the_realms(pos) and self._does_not_overlap(pos):
                     territory.append(pos)
@@ -77,11 +76,9 @@ class Board:
         print(self.territories)
 
     def _draw_territories(self, win):
-        # Draw green background
         for row in range(ROWS):
             for col in range(COLS):
-                adder = self.territories[row][col]*10
-                pygame.draw.rect(win, (DARK_GREEN[0]+adder, DARK_GREEN[1], DARK_GREEN[2]), (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+                pygame.draw.rect(win, COLOUR_LIST[self.territories[row][col]-1], (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
     def draw(self, win):
         """Draws and paints the entire game onto the window."""
