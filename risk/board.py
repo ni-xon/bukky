@@ -6,17 +6,18 @@ from .objects import Unit, Building, Piece
 class Board:
     def __init__(self):
         self.board = [[None for _ in range(COLS)] for _ in range(ROWS)]
-        self.selected_unit = None
+        self.player_gold = [500 for i in range(NO_PLAYERS)]
 
     def __str__(self):
         output = ""
         for row in range(ROWS):
             output += f"{self.board[row]}\n"
-
         return output
 
 
-    def initial_draw(self, win):
+    def draw(self, win):
+        """Draws and paints the entire game onto the window."""
+        # Draw white background
         win.fill(WHITE)
 
         # Draw green background
@@ -32,10 +33,9 @@ class Board:
         # Draw end turn button
         pygame.draw.rect(win, BLACK, ((COLS*SQUARE_SIZE)-1,0,SQUARE_SIZE+1,SQUARE_SIZE+1))
 
-    def update_draw(self, win):
+        # Draw pieces and health
         pygame.init()
         number_font = pygame.font.Font( None, 16)
-        # Draw pieces and health
         for i in range(ROWS):
             for j in range(COLS):
                 object = self.board[i][j]
@@ -46,6 +46,7 @@ class Board:
                     win.blit(number_image, (object.x, object.y))
 
     def create_initial_objects(self):
+        """Creates all initial piece objects."""
         p1_base = Building(id=1, row=0, col=0, power=0)
         self.board[0][0] = p1_base
 
@@ -71,6 +72,7 @@ class Board:
         return self.board[row][col]
 
     def get_valid_moves(self, piece):
+        """Returns a piece's valid moves if they have enough resources."""
         valid_moves = []
         valid_moves.append((piece.row + 1, piece.col))
         valid_moves.append((piece.row, piece.col + 1))
@@ -80,13 +82,19 @@ class Board:
         if type(piece) == Unit:
             if self.enough_action_points(piece) is False:
                 valid_moves = []
-                
+
+        if type(piece) == Building:
+            if self.player_gold[piece.id - 1] <= 0:
+                valid_moves = []
+
         return valid_moves
 
     def delete_piece(self, row, col):
+        """Deletes a piece from the board."""
         self.board[row][col] = None
     
     def attack(self, agg, vict):
+        """Attacks 2 piece objects of different player ids."""
         # CASE 1: If aggressor kills victim:
         if agg.power > vict.power:
             # Aggressor loses health (but stays alive)
@@ -118,10 +126,11 @@ class Board:
         self.delete_piece(merger.row, merger.col)
 
     def spawn(self, id, row, col):
+        """Creates a new Unit object at a desired (row, col)."""
         self.board[row][col] = Unit(id=id, row=row, col=col, power=100)
 
     def reset_action_points(self):
-        """Resets action points for all piece objects on board."""
+        """Resets action points for all Unit objects on board."""
         for row in range(ROWS):
             for col in range(COLS):
                 object = self.board[row][col]
@@ -129,6 +138,7 @@ class Board:
                     object.action_points = object.initial_action_points
 
     def enough_action_points(self, unit):
+        """Returns True if a Unit object has action points, otherwise returns False."""
         if unit.action_points > 0:
             return True
 

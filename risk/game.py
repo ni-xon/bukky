@@ -19,8 +19,7 @@ class Game:
         self.valid_moves = []
 
     def update(self):
-        self.board.initial_draw(self.win)
-        self.board.update_draw(self.win)
+        self.board.draw(self.win)
         self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
 
@@ -74,6 +73,7 @@ class Game:
 
             elif type(self.selected) == Building and (row, col) in self.valid_moves:
                 self.board.spawn(self.current_player, row, col)
+                self.board.player_gold[self.selected.id - 1] -= 100
 
             # This code chunk deselects
             self.selected = None

@@ -4,6 +4,7 @@ from risk.board import Board
 from risk.objects import *
 from risk.game import *
 
+# Initial settings
 FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('FRISK')
@@ -15,11 +16,11 @@ def get_position_mouse(pos):
     col = x // SQUARE_SIZE
     return row, col
 
-# MAIN GAME LOOP
+# Main game loop
 def main():
     run = True
     clock = pygame.time.Clock()
-    game = Game(WIN)
+    game = Game(WIN) # Initialise game object
 
     while run:
         clock.tick(FPS)
@@ -29,16 +30,18 @@ def main():
         #   run = False
 
         for event in pygame.event.get():
+            # Close game window when windows X button is pressed 
             if event.type == pygame.QUIT:
                 run = False
 
-            # Handler for mouse button click
+            # Get row, col of click and pass onto method for handling target selected
             if event.type == pygame.MOUSEBUTTONDOWN:
-                # Get row, col according to dimensions of board array
                 pos = pygame.mouse.get_pos()
-                row, col = get_position_mouse(pos)
+                row, col = get_position_mouse(pos)  
                 game.select(row, col)
 
+        # Update board visuals
         game.update()
+    # Quit window if run == False
     pygame.quit()
 main()
