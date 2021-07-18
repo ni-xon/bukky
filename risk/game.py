@@ -60,13 +60,13 @@ class Game:
         target = self.board.get_piece(row, col)
 
         # If something is already selected in the previous iteration
-        if self.selected != None:
+        if self.selected is not None:
             # If selected piece is a Unit object
             if type(self.selected) == Unit:
                 if (row, col) in self.valid_moves and self.board.enough_action_points(self.selected):
-                    if target == None:
+                    if target is None:
                         self.board.move(self.selected, row, col)
-                    elif target != None:
+                    elif target is not None:
                         # Merge
                         if self.selected.id == target.id:
                             self.board.merge(self.selected, target)
@@ -87,7 +87,7 @@ class Game:
             return # returns back to main
 
         # If selection is valid (it is a piece that belongs to the current player)
-        if target != None and target.id == self.current_player:
+        if target is not None and target.id == self.current_player:
             self.selected = target
             self.valid_moves = self.board.get_valid_moves(target)
             return True # returns back to main
