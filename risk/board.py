@@ -71,9 +71,6 @@ class Board:
                 if self._not_beyond_the_realms(pos) and self._does_not_overlap(pos):
                     territory.append(pos)
                     self.territories[pos[0]][pos[1]] = head[2]
-        
-        print(ter_list)
-        print(self.territories)
 
     def _draw_territories(self, win):
         for row in range(ROWS):
