@@ -11,7 +11,7 @@ class Board:
 
         # TERRITORY THINGS
         self.territories = [[None for _ in range(COLS)] for _ in range(ROWS)]
-        self._create_territories()
+        self._create_territories_good()
 
 
     def __str__(self):
@@ -42,7 +42,8 @@ class Board:
         ter_list = []
 
         # Randomly initalise territory 'seeds'
-        for i in range(1, TER_NUM+1):
+        i = 1
+        while len(ter_list) < TER_NUM:
 
             # Generate a random territory position
             ter_x = random.randint(1, ROWS-2)
@@ -57,20 +58,39 @@ class Board:
             if self._does_not_overlap((ter_x, ter_y)):
                 ter_list.append([(ter_x, ter_y, i)])
                 self.territories[ter_x][ter_y] = i
+                i += 1
 
         # Grow the 'seeds' until the board is full
-        while self._territories_do_not_fill_the_board(ter_list):###################
-            
+        while self._territories_do_not_fill_the_board(ter_list):    ################### change it to return False if a None exists - for _ in row: for _ in column
             # Give each 'seed' a chance to grow
             for territory in ter_list:
-                head = territory[random.randint(0, len(territory)-1)]
-                # Create a random movement
-                random_move = random.choice([(0, 0), (-1, 0), (1, 0), (0, -1), (0, 1)])
-                pos = (head[0]+random_move[0], head[1]+random_move[1], head[2])
+                added = False
+                timeout_counter = 0
+                while added is False and timeout_counter < 20:
+                    head = territory[random.randint(0, len(territory)-1)]
+                    # Create a random movement
+                    random_move = random.choice([(-1, 0), (1, 0), (0, -1), (0, 1)])
+                    pos = (head[0]+random_move[0], head[1]+random_move[1], head[2])
 
-                if self._not_beyond_the_realms(pos) and self._does_not_overlap(pos):
-                    territory.append(pos)
-                    self.territories[pos[0]][pos[1]] = head[2]
+                    if self._not_beyond_the_realms(pos) and self._does_not_overlap(pos):
+                        territory.append(pos)
+                        self.territories[pos[0]][pos[1]] = head[2]
+                        added = True
+
+                    timeout_counter += 1
+        
+        return ter_list
+                        
+    def _create_territories_good(self):
+        good_counter = 0
+        while good_counter != TER_NUM:     
+            self.territories = [[None for _ in range(COLS)] for _ in range(ROWS)]
+            ter_list = self._create_territories()   
+            good_counter = 0
+            for territory in ter_list:
+                if not ((len(territory) > (((ROWS*COLS)//TER_NUM)+X)) or (len(territory) < (((ROWS*COLS)//TER_NUM)-X))):
+
+                    good_counter += 1
 
     def _draw_territories(self, win):
         for row in range(ROWS):

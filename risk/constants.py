@@ -21,6 +21,7 @@ NO_PLAYERS = 2
 
 # Territory Constants
 TER_NUM = ROWS      # "How to calc #Territories" can be changed later with team
+X = (((ROWS*COLS)%TER_NUM)/2)+2
 
 COLOUR_LIST = []
 for _ in range(TER_NUM):
