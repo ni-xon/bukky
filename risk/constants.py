@@ -27,3 +27,5 @@ COLOUR_LIST = []
 for _ in range(TER_NUM):
     COLOUR_LIST.append(tuple(random.choices(range(256), k=3)))
 
+# PIECE COSTS
+UNIT_COST = 20

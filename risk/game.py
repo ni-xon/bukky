@@ -2,6 +2,7 @@ import pygame
 from .board import Board
 from .constants import *
 from .objects import *
+from .player import *
 
 class Game:
     def __init__(self, win):
@@ -11,9 +12,11 @@ class Game:
     def _init(self):
         """Initialises all required variables and board object for a new game."""
         self.selected = None
+        self.players = [Player() for i in range(NO_PLAYERS + 1)]
         self.board = Board()
         self.board.create_initial_objects()
-        self.current_player = 1
+        self.current_player_id = 1
+        self.current_player = self.players[self.current_player_id]   # Initially points to first player object
         self.turn_counter = 0
         self.number_of_players = 2
         self.valid_moves = []
@@ -37,7 +40,8 @@ class Game:
     def change_turn(self):
         """Switches to the next player's turn."""
         self.turn_counter += 1
-        self.current_player = (self.turn_counter % self.number_of_players) + 1
+        self.current_player_id = (self.turn_counter % self.number_of_players) + 1
+        self.current_player = self.players[self.current_player_id]
 
     def menu(self, row, col):
         """Handles all menu click logic given row, col."""
@@ -77,9 +81,9 @@ class Game:
                     self.selected.action_points -= 1
 
             # If selected piece is a Building object
-            elif type(self.selected) == Building and (row, col) in self.valid_moves:
-                self.board.spawn(self.current_player, row, col)
-                self.board.player_gold[self.selected.id - 1] -= 100
+            elif type(self.selected) == Building and self.current_player.gold >= UNIT_COST:
+                self.board.spawn(self.current_player_id, row, col)
+                self.current_player.reduce_gold(UNIT_COST)
 
             # This code chunk deselects
             self.selected = None
@@ -87,7 +91,7 @@ class Game:
             return # returns back to main
 
         # If selection is valid (it is a piece that belongs to the current player)
-        if target is not None and target.id == self.current_player:
+        if target is not None and target.id == self.current_player_id:
             self.selected = target
             self.valid_moves = self.board.get_valid_moves(target)
             return True # returns back to main
