@@ -1,8 +1,10 @@
 import pygame
 import random
 
-WIDTH, HEIGHT = 600, 500
+
 ROWS, COLS = 10, 10
+HEIGHT = 1050
+WIDTH = (HEIGHT // ROWS) + HEIGHT
 SQUARE_SIZE = HEIGHT // COLS
 
 # RGB
@@ -14,10 +16,13 @@ GREEN = (0, 255, 0)
 GRAY = (128, 128, 128)
 YELLOW = (255, 255, 0)
 DARK_GREEN = (3, 125, 80)
+ORANGE = (255, 165, 0)
 
 #
 NO_PLAYERS = 2
 
+# PLAYER COLOURS
+PLAYER_COLOURS = [None, RED, BLUE, GREEN, ORANGE]
 
 # Territory Constants
 TER_NUM = ROWS      # "How to calc #Territories" can be changed later with team

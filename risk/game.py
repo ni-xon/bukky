@@ -18,12 +18,12 @@ class Game:
         self.current_player_id = 1
         self.current_player = self.players[self.current_player_id]   # Initially points to first player object
         self.turn_counter = 0
-        self.number_of_players = 2
         self.valid_moves = []
 
     def update(self):
         """Updates board visuals to pygame window."""
         self.board.draw(self.win)
+        self.draw_menu(self.win)
         self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
 
@@ -40,7 +40,7 @@ class Game:
     def change_turn(self):
         """Switches to the next player's turn."""
         self.turn_counter += 1
-        self.current_player_id = (self.turn_counter % self.number_of_players) + 1
+        self.current_player_id = (self.turn_counter % NO_PLAYERS) + 1
         self.current_player = self.players[self.current_player_id]
 
     def menu(self, row, col):
@@ -51,6 +51,20 @@ class Game:
             self.board.reset_action_points()
 
         return
+
+    def draw_menu(self, win):
+        # Draw reset turn button with current player turn
+        pygame.draw.rect(win, PLAYER_COLOURS[self.current_player_id], ((COLS*SQUARE_SIZE)-1,0,SQUARE_SIZE+1,SQUARE_SIZE+1))
+        self.board.write_on_board(win, "RESET", WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//4), (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+
+        # Draw gold
+        self.board.write_on_board(win, "GOLD", BLACK, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), SQUARE_SIZE + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
+        self.board.write_on_board(win, self.current_player.gold, BLACK, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), SQUARE_SIZE + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+        
+        # Draw action points
+        if type(self.selected) == Unit:
+            self.board.write_on_board(win, "ACTION", BLACK, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), (SQUARE_SIZE*2) + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
+            self.board.write_on_board(win, self.selected.action_points, BLACK, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), (SQUARE_SIZE*2) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
 
     def select(self, row, col):
         """Handles all logic upon any selections on the board given row, col."""

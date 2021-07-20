@@ -7,7 +7,6 @@ import random
 class Board:
     def __init__(self):
         self.board = [[None for _ in range(COLS)] for _ in range(ROWS)]
-        self.player_gold = [500 for i in range(NO_PLAYERS)]
 
         # TERRITORY THINGS
         self.territories = [[None for _ in range(COLS)] for _ in range(ROWS)]
@@ -89,7 +88,6 @@ class Board:
             good_counter = 0
             for territory in ter_list:
                 if not ((len(territory) > (((ROWS*COLS)//TER_NUM)+X)) or (len(territory) < (((ROWS*COLS)//TER_NUM)-X))):
-
                     good_counter += 1
 
     def _draw_territories(self, win):
@@ -102,6 +100,7 @@ class Board:
         # Draw white background
         win.fill(WHITE)
 
+        # Draw territories
         self._draw_territories(win)
 
         # Draw grid
@@ -109,24 +108,24 @@ class Board:
             for col in range(COLS):
                 pygame.draw.rect(win, BLACK, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
 
-        # Draw end turn button
-        pygame.draw.rect(win, BLACK, ((COLS*SQUARE_SIZE)-1,0,SQUARE_SIZE+1,SQUARE_SIZE+1))
-
         # Draw pieces and health
-        pygame.init()
-        number_font = pygame.font.Font( None, 16)
         for i in range(ROWS):
             for j in range(COLS):
                 object = self.board[i][j]
                 if object != None:
                     object.draw(win)
-                    number_text = str(object.power)
-                    number_image = number_font.render(number_text, False, WHITE)
-                    win.blit(number_image, (object.x, object.y))
+                    self.write_on_board(win, object.power, WHITE, object.x, object.y, (SQUARE_SIZE//3))
+
+    def write_on_board(self, win, string, colour, x, y, size):
+        pygame.init()
+        number_font = pygame.font.Font(None, size)
+        number_text = str(string)
+        number_image = number_font.render(number_text, False, colour)
+        win.blit(number_image, (x, y))
 
     def create_initial_objects(self):
         """Creates all initial piece objects."""
-        p1_base = Building(id=1, row=0, col=0, power=0)
+        p1_base = Building(id=1, row=0, col=0, power=100)
         self.board[0][0] = p1_base
 
         p1_unit = Unit(id=1, row=1, col=1, power=100)
@@ -138,8 +137,8 @@ class Board:
         p3_unit = Unit(id=2, row=1, col=3, power=150)
         self.board[1][3] = p3_unit
 
-        p2_base = Building(id=2, row=4, col=4, power=0)
-        self.board[4][4] = p2_base
+        p2_base = Building(id=2, row=3, col=3, power=100)
+        self.board[3][3] = p2_base
 
     def move(self, piece, row, col):
         """Moves a piece on board array."""
@@ -162,10 +161,6 @@ class Board:
             if self.enough_action_points(piece) is False:
                 valid_moves = []
 
-        if type(piece) == Building:
-            if self.player_gold[piece.id - 1] <= 0:
-                valid_moves = []
-
         return valid_moves
 
     def delete_piece(self, row, col):
@@ -174,27 +169,52 @@ class Board:
     
     def attack(self, agg, vict):
         """Attacks 2 piece objects of different player ids."""
-        # CASE 1: If aggressor kills victim:
-        if agg.power > vict.power:
-            # Aggressor loses health (but stays alive)
-            agg.power = agg.power - vict.power
+        if type(vict) == Unit:
+            # CASE 1: If aggressor kills victim:
+            if agg.power > vict.power:
+                # Aggressor loses health (but stays alive)
+                agg.power = agg.power - vict.power
 
-            # Victim is killed
-            self.delete_piece(vict.row, vict.col)
+                # Victim is killed
+                self.delete_piece(vict.row, vict.col)
 
-        # CASE 2: If victim kills aggressor:
-        elif agg.power < vict.power:
-            # Victim loses health (but stays alive)
-            vict.power = vict.power - agg.power
+            # CASE 2: If victim kills aggressor:
+            elif agg.power < vict.power:
+                # Victim loses health (but stays alive)
+                vict.power = vict.power - agg.power
 
-            # Aggressor is killed
-            self.delete_piece(agg.row, agg.col)
+                # Aggressor is killed
+                self.delete_piece(agg.row, agg.col)
 
-        # CASE 3: Double Suicide -> if agg.power == vict.power
-        else:
-            # Both aggressor/victim are killed
-            self.delete_piece(vict.row, vict.col)
-            self.delete_piece(agg.row, agg.col)
+            # CASE 3: Double Suicide -> if agg.power == vict.power
+            else:
+                # Both aggressor/victim are killed
+                self.delete_piece(vict.row, vict.col)
+                self.delete_piece(agg.row, agg.col)
+
+        elif type(vict) == Building:
+            # CASE 1: If aggressor takes over building:
+            if agg.power > vict.power:
+                # Aggressor loses health (but stays alive)
+                agg.power = agg.power - vict.power
+
+                # Building is converted to player colour
+                self.board[vict.row][vict.col] = Building(agg.id, vict.row, vict.col, 0)
+                self.merge(agg, self.board[vict.row][vict.col])
+
+            # CASE 2: If victim kills aggressor:
+            elif agg.power < vict.power:
+                # Victim loses health (but stays alive)
+                vict.power = vict.power - agg.power
+
+                # Aggressor is killed
+                self.delete_piece(agg.row, agg.col)
+
+            # CASE 3: Double Suicide -> if agg.power == vict.power
+            else:
+                # Agressor is killed and building still belongs to player
+                self.delete_piece(agg.row, agg.col)
+                vict.power = vict.power - agg.power
 
     def merge(self, merger, target):
         """Merges 2 piece objects of the same player id."""
