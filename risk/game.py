@@ -58,13 +58,13 @@ class Game:
         self.board.write_on_board(win, "RESET", WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//4), (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
 
         # Draw gold
-        self.board.write_on_board(win, "GOLD", BLACK, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), SQUARE_SIZE + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
-        self.board.write_on_board(win, self.current_player.gold, BLACK, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), SQUARE_SIZE + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+        self.board.write_on_board(win, "GOLD", WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), SQUARE_SIZE + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
+        self.board.write_on_board(win, self.current_player.gold, WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), SQUARE_SIZE + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
         
         # Draw action points
         if type(self.selected) == Unit:
-            self.board.write_on_board(win, "ACTION", BLACK, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), (SQUARE_SIZE*2) + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
-            self.board.write_on_board(win, self.selected.action_points, BLACK, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), (SQUARE_SIZE*2) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+            self.board.write_on_board(win, "ACTION", WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), (SQUARE_SIZE*2) + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
+            self.board.write_on_board(win, self.selected.action_points, WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), (SQUARE_SIZE*2) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
 
     def select(self, row, col):
         """Handles all logic upon any selections on the board given row, col."""

@@ -97,8 +97,7 @@ class Board:
 
     def draw(self, win):
         """Draws and paints the entire game onto the window."""
-        # Draw white background
-        win.fill(WHITE)
+        win.fill(BLACK)
 
         # Draw territories
         self._draw_territories(win)
@@ -112,8 +111,13 @@ class Board:
         for i in range(ROWS):
             for j in range(COLS):
                 object = self.board[i][j]
-                if object != None:
+                if object is not None:
                     object.draw(win)
+
+        for i in range(ROWS):
+            for j in range(COLS):
+                object = self.board[i][j]
+                if object is not None:
                     self.write_on_board(win, object.power, WHITE, object.x, object.y, (SQUARE_SIZE//3))
 
     def write_on_board(self, win, string, colour, x, y, size):
@@ -125,20 +129,26 @@ class Board:
 
     def create_initial_objects(self):
         """Creates all initial piece objects."""
-        p1_base = Building(id=1, row=0, col=0, power=100)
-        self.board[0][0] = p1_base
+        # PLAYER 1
+        self.board[0][0] = Building(id=1, row=0, col=0, power=BUILDING_POWER)
+        self.board[1][1] = Unit(id=1, row=1, col=1, power=UNIT_POWER)
+        # PLAYER 2
+        self.board[0][COLS-1] = Building(id=2, row=0, col=COLS-1, power=BUILDING_POWER)
+        self.board[1][COLS-2] = Unit(id=2, row=1, col=COLS-2, power=UNIT_POWER)
 
-        p1_unit = Unit(id=1, row=1, col=1, power=100)
-        self.board[1][1] = p1_unit
-        
-        p2_unit = Unit(id=1, row=1, col=2, power=100)
-        self.board[1][2] = p2_unit
+        if NO_PLAYERS == 3:
+            # PLAYER 3
+            self.board[ROWS-1][0] = Building(id=3, row=ROWS-1, col=0, power=BUILDING_POWER)
+            self.board[ROWS-2][1] = Unit(id=3, row=ROWS-2, col=1, power=UNIT_POWER)
+        elif NO_PLAYERS == 4:
+            # PLAYER 3
+            self.board[ROWS-1][0] = Building(id=3, row=ROWS-1, col=0, power=BUILDING_POWER)
+            self.board[ROWS-2][1] = Unit(id=3, row=ROWS-2, col=1, power=UNIT_POWER)
+            # PLAYER 4
+            self.board[ROWS-1][COLS-1] = Building(id=4, row=ROWS-1, col=COLS-1, power=BUILDING_POWER)
+            self.board[ROWS-2][COLS-2] = Unit(id=4, row=ROWS-2, col=COLS-2, power=UNIT_POWER)
 
-        p3_unit = Unit(id=2, row=1, col=3, power=150)
-        self.board[1][3] = p3_unit
 
-        p2_base = Building(id=2, row=3, col=3, power=100)
-        self.board[3][3] = p2_base
 
     def move(self, piece, row, col):
         """Moves a piece on board array."""

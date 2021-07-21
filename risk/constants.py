@@ -3,7 +3,7 @@ import random
 
 
 ROWS, COLS = 10, 10
-HEIGHT = 1050
+HEIGHT = 800
 WIDTH = (HEIGHT // ROWS) + HEIGHT
 SQUARE_SIZE = HEIGHT // COLS
 
@@ -19,10 +19,10 @@ DARK_GREEN = (3, 125, 80)
 ORANGE = (255, 165, 0)
 
 #
-NO_PLAYERS = 2
+NO_PLAYERS = 4
 
 # PLAYER COLOURS
-PLAYER_COLOURS = [None, RED, BLUE, GREEN, ORANGE]
+PLAYER_COLOURS = [GRAY, RED, BLUE, GREEN, ORANGE]
 
 # Territory Constants
 TER_NUM = ROWS      # "How to calc #Territories" can be changed later with team
@@ -34,3 +34,7 @@ for _ in range(TER_NUM):
 
 # PIECE COSTS
 UNIT_COST = 20
+
+# DEFAULT POWER VALUES
+BUILDING_POWER = 500
+UNIT_POWER = 100
