@@ -95,9 +95,10 @@ class Game:
                     self.selected.action_points -= 1
 
             # If selected piece is a Building object
-            elif type(self.selected) == Building and self.current_player.gold >= UNIT_COST:
-                self.board.spawn(self.current_player_id, row, col)
-                self.current_player.reduce_gold(UNIT_COST)
+            elif type(self.selected) == Building:
+                if (row, col) in self.valid_moves and self.current_player.gold >= UNIT_COST:
+                    self.board.spawn(self.current_player_id, row, col)
+                    self.current_player.reduce_gold(UNIT_COST)
 
             # This code chunk deselects
             self.selected = None
