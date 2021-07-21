@@ -165,15 +165,21 @@ class Board:
 
     def get_valid_moves(self, piece):
         """Returns a piece's valid moves if they have enough resources."""
+        # Initialise a list with all possible moves
         valid_moves = []
         valid_moves.append((piece.row + 1, piece.col))
         valid_moves.append((piece.row, piece.col + 1))
         valid_moves.append((piece.row - 1, piece.col))
         valid_moves.append((piece.row, piece.col - 1))
-
+        # Checks if Unit has enough action points
         if type(piece) == Unit:
             if self.enough_action_points(piece) is False:
                 valid_moves = []
+        # Checks if theres anything in the way blocking spawn
+        if type(piece) == Building:
+            for (row, col) in valid_moves:
+                if self.board[row][col] is not None:
+                    valid_moves.remove((row, col))
 
         return valid_moves
 
