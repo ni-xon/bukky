@@ -167,7 +167,7 @@ class Board:
         """Returns a piece's valid moves if they have enough resources."""
         # Initialise a list with all possible moves
         valid_moves = []
-        
+
         pos = (piece.row+1, piece.col)
         if self._not_beyond_the_realms(pos) is True:
             valid_moves.append(pos)
@@ -190,10 +190,11 @@ class Board:
                 valid_moves = []
         # Checks if theres anything in the way blocking spawn
         if type(piece) == Building:
+            delete_list = []
             for (row, col) in valid_moves:
                 if self.board[row][col] is not None:
-                    valid_moves.remove((row, col))
-
+                    delete_list.append((row, col))    
+            valid_moves = list(set(valid_moves) - set(delete_list))
         return valid_moves
 
     def delete_piece(self, row, col):
