@@ -26,7 +26,7 @@ class Building(Piece):
         pygame.draw.rect(win, self.colour, (self.y+3, self.x+3, SQUARE_SIZE-6, SQUARE_SIZE-6))
 
     def __repr__(self):
-        return "Building " + str(self.id)
+        return f"P{self.id} Base"
 
 
 class Unit(Piece):
@@ -50,7 +50,7 @@ class Unit(Piece):
         pygame.draw.circle(win, self.colour, (self.x, self.y), radius)
 
     def __repr__(self):
-        return "Unit " + str(self.id)
+        return f"P{self.id} Unit"
 
  
 

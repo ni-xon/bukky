@@ -57,14 +57,22 @@ class Game:
         pygame.draw.rect(win, PLAYER_COLOURS[self.current_player_id], ((COLS*SQUARE_SIZE)-1,0,SQUARE_SIZE+1,SQUARE_SIZE+1))
         self.board.write_on_board(win, "RESET", WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//4), (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
 
+        left_x = COLS*SQUARE_SIZE + (SQUARE_SIZE//6)
         # Draw gold
-        self.board.write_on_board(win, "GOLD", WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), SQUARE_SIZE + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
-        self.board.write_on_board(win, self.current_player.gold, WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), SQUARE_SIZE + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+        self.board.write_on_board(win, "GOLD:", WHITE, left_x, SQUARE_SIZE + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
+        self.board.write_on_board(win, self.current_player.gold, WHITE, left_x, SQUARE_SIZE + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
         
-        # Draw action points
+        # Draw health and action points
         if type(self.selected) == Unit:
-            self.board.write_on_board(win, "ACTION", WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), (SQUARE_SIZE*2) + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
-            self.board.write_on_board(win, self.selected.action_points, WHITE, COLS*SQUARE_SIZE + (SQUARE_SIZE//3), (SQUARE_SIZE*2) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+            self.board.write_on_board(win, "POWER:", WHITE, left_x, (SQUARE_SIZE*2) + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
+            self.board.write_on_board(win, self.selected.power, WHITE, left_x, (SQUARE_SIZE*2) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+
+            self.board.write_on_board(win, "ACTION:", WHITE, left_x, (SQUARE_SIZE*3) + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
+            self.board.write_on_board(win, self.selected.action_points, WHITE, left_x, (SQUARE_SIZE*3) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+
+        # Draw currently selected
+        self.board.write_on_board(win, "SELECT:", WHITE, left_x, (SQUARE_SIZE*4) + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
+        self.board.write_on_board(win, repr(self.selected), WHITE, left_x, (SQUARE_SIZE*4) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
 
     def select(self, row, col):
         """Handles all logic upon any selections on the board given row, col."""
