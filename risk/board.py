@@ -101,26 +101,24 @@ class Board:
 
         # Draw territories
         self._draw_territories(win)
-
         # Draw grid
         for row in range(ROWS):
             for col in range(COLS):
                 pygame.draw.rect(win, BLACK, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
-
-        # Draw pieces and health
+        # Draw pieces
         for i in range(ROWS):
             for j in range(COLS):
                 object = self.board[i][j]
                 if object is not None:
                     object.draw(win)
-
+        # Draw power and action points
         for i in range(ROWS):
             for j in range(COLS):
                 object = self.board[i][j]
                 if object is not None:
                     if type(object) == Building:
                         self.write_on_board(win, object.power, WHITE, object.x + (SQUARE_SIZE//4), object.y + (SQUARE_SIZE//4), (SQUARE_SIZE//3))
-                    if type(object) == Unit:
+                    elif type(object) == Unit:
                         self.write_on_board(win, object.action_points, WHITE, object.x - (SQUARE_SIZE//4), object.y - (SQUARE_SIZE//32), (SQUARE_SIZE//3))
                         self.write_on_board(win, object.power, WHITE, object.x - (SQUARE_SIZE//4), object.y - (SQUARE_SIZE//4), (SQUARE_SIZE//3))
 
@@ -133,6 +131,11 @@ class Board:
 
     def create_initial_objects(self):
         """Creates all initial piece objects."""
+        # NEUTRALS
+        self.board[ROWS//2-2][COLS//2-2] = Building(id=0, row=ROWS//2-2, col=COLS//2-2, power=0)
+        self.board[ROWS//2+1][COLS//2+1] = Building(id=0, row=ROWS//2+1, col=COLS//2+1, power=0)
+        self.board[ROWS//2-2][COLS//2+4] = Building(id=0, row=ROWS//2-2, col=COLS//2+4, power=0)
+
         # PLAYER 1
         self.board[0][0] = Building(id=1, row=0, col=0, power=BUILDING_POWER)
         self.board[1][1] = Unit(id=1, row=1, col=1, power=UNIT_POWER)
