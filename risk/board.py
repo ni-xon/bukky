@@ -95,7 +95,7 @@ class Board:
             for col in range(COLS):
                 pygame.draw.rect(win, COLOUR_LIST[self.territories[row][col]-1], (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
-    def draw(self, win):
+    def draw(self, win, current_player_id):
         """Draws and paints the entire game onto the window."""
         win.fill(BLACK)
 
@@ -119,7 +119,8 @@ class Board:
                     if type(object) == Building:
                         self.write_on_board(win, object.power, WHITE, object.x + (SQUARE_SIZE//4), object.y + (SQUARE_SIZE//4), (SQUARE_SIZE//3))
                     elif type(object) == Unit:
-                        self.write_on_board(win, object.action_points, WHITE, object.x - (SQUARE_SIZE//4), object.y - (SQUARE_SIZE//32), (SQUARE_SIZE//3))
+                        if object.id == current_player_id:
+                            self.write_on_board(win, object.action_points, WHITE, object.x - (SQUARE_SIZE//4), object.y - (SQUARE_SIZE//32), (SQUARE_SIZE//3))
                         self.write_on_board(win, object.power, WHITE, object.x - (SQUARE_SIZE//4), object.y - (SQUARE_SIZE//4), (SQUARE_SIZE//3))
 
     def write_on_board(self, win, string, colour, x, y, size):

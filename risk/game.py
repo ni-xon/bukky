@@ -22,7 +22,7 @@ class Game:
 
     def update(self):
         """Updates board visuals to pygame window."""
-        self.board.draw(self.win)
+        self.board.draw(self.win, self.current_player_id)
         self.draw_menu(self.win)
         self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
