@@ -118,7 +118,11 @@ class Board:
             for j in range(COLS):
                 object = self.board[i][j]
                 if object is not None:
-                    self.write_on_board(win, object.power, WHITE, object.x, object.y, (SQUARE_SIZE//3))
+                    if type(object) == Building:
+                        self.write_on_board(win, object.power, WHITE, object.x + (SQUARE_SIZE//4), object.y + (SQUARE_SIZE//4), (SQUARE_SIZE//3))
+                    if type(object) == Unit:
+                        self.write_on_board(win, object.action_points, WHITE, object.x - (SQUARE_SIZE//4), object.y - (SQUARE_SIZE//32), (SQUARE_SIZE//3))
+                        self.write_on_board(win, object.power, WHITE, object.x - (SQUARE_SIZE//4), object.y - (SQUARE_SIZE//4), (SQUARE_SIZE//3))
 
     def write_on_board(self, win, string, colour, x, y, size):
         pygame.init()
