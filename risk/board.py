@@ -167,10 +167,23 @@ class Board:
         """Returns a piece's valid moves if they have enough resources."""
         # Initialise a list with all possible moves
         valid_moves = []
-        valid_moves.append((piece.row + 1, piece.col))
-        valid_moves.append((piece.row, piece.col + 1))
-        valid_moves.append((piece.row - 1, piece.col))
-        valid_moves.append((piece.row, piece.col - 1))
+        
+        pos = (piece.row+1, piece.col)
+        if self._not_beyond_the_realms(pos) is True:
+            valid_moves.append(pos)
+
+        pos = (piece.row, piece.col+1)
+        if self._not_beyond_the_realms(pos) is True:
+            valid_moves.append(pos)
+
+        pos = (piece.row-1, piece.col)
+        if self._not_beyond_the_realms(pos) is True:
+            valid_moves.append(pos)
+
+        pos = (piece.row, piece.col-1)
+        if self._not_beyond_the_realms(pos) is True:
+            valid_moves.append(pos)
+
         # Checks if Unit has enough action points
         if type(piece) == Unit:
             if self.enough_action_points(piece) is False:
