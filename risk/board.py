@@ -255,6 +255,11 @@ class Board:
         # Target's power gets incremented
         target.power = target.power + merger.power
     
+        # If action points of merger is higher, delete target and preserve action points 
+        if type(target) == Unit:
+            if merger.action_points > target.action_points:
+                target.action_points = merger.action_points
+        
         # Merger gets deleted
         self.delete_piece(merger.row, merger.col)
 
