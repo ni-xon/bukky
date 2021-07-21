@@ -25,9 +25,9 @@ def main():
     while run:
         clock.tick(FPS)
 
-        # if game.winner() != None:
-        #   print(game.winner())
-        #   run = False
+        if game.winner() != None:
+          print(game.winner())
+          run = False
 
         for event in pygame.event.get():
             # Close game window when windows X button is pressed 

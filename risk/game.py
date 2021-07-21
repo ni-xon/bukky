@@ -121,3 +121,20 @@ class Game:
 
         return False # returns back to main
         
+    def winner(self):
+        """Function that returns the winner when all bases are occupied by a single player"""
+        player_ids = []
+        for row in range(ROWS):
+            for col in range(COLS):
+                object = self.board.get_piece(row, col)
+                if type(object) == Building:
+                    player_ids.append(object.id)
+                    
+        # Get all unique player id that currently inhabit a building
+        temp = list(set(player_ids))
+
+        # If there only remains a single id, that player is the winner
+        if len(temp) == 1:
+            return f"The winner is player {temp[0]}!"
+        else:
+            return None

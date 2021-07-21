@@ -135,7 +135,7 @@ class Board:
         # NEUTRALS
         self.board[ROWS//2-2][COLS//2-2] = Building(id=0, row=ROWS//2-2, col=COLS//2-2, power=0)
         self.board[ROWS//2+1][COLS//2+1] = Building(id=0, row=ROWS//2+1, col=COLS//2+1, power=0)
-        self.board[ROWS//2-2][COLS//2+4] = Building(id=0, row=ROWS//2-2, col=COLS//2+4, power=0)
+        self.board[ROWS//2-2][COLS//2] = Building(id=0, row=ROWS//2-2, col=COLS//2, power=0)
 
         # PLAYER 1
         self.board[0][0] = Building(id=1, row=0, col=0, power=BUILDING_POWER)
