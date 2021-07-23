@@ -35,7 +35,7 @@ class Game:
         """Draws all valid moves (tuples) for a particular piece object."""
         for move in moves:
             row, col = move
-            pygame.draw.rect(self.win, YELLOW, (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 1)
+            pygame.draw.rect(self.win, PLAYER_LIGHTER_COLOURS[self.current_player_id], (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 2)
     
     def change_turn(self):
         """Switches to the next player's turn."""
