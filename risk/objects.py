@@ -23,7 +23,7 @@ class Building(Piece):
         self.y = SQUARE_SIZE * self.row
 
     def draw(self, win):
-        pygame.draw.rect(win, self.colour, (self.x+3, self.y+3, SQUARE_SIZE-6, SQUARE_SIZE-6))
+        pygame.draw.rect(win, self.colour, (self.x+7, self.y+7, SQUARE_SIZE-14, SQUARE_SIZE-14))
 
     def __repr__(self):
         return f"P{self.id} Base"

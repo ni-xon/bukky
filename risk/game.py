@@ -108,7 +108,6 @@ class Game:
                     self.board.spawn(self.current_player_id, row, col)
                     self.current_player.reduce_gold(UNIT_COST)
 
-            alist = self.board.get_territories_claimed()
             # This code chunk deselects
             self.selected = None
             self.valid_moves = []
