@@ -10,14 +10,59 @@ class Board:
 
         # TERRITORY THINGS
         self.territories = [[None for _ in range(COLS)] for _ in range(ROWS)]
+        self.territories_no_pieces = [[0 for _ in range(NO_PLAYERS+1)] for _ in range(TER_NUM+1)]
         self._create_territories_good()
 
 
     def __str__(self):
         output = ""
         for row in range(ROWS):
-            output += f"{self.board[row]}\n"
+            output += f"{self.territories[row]}\n"
         return output
+
+    def get_territories_claimed(self):
+        self.territories_no_pieces = [[0 for _ in range(NO_PLAYERS+1)] for _ in range(TER_NUM+1)]
+
+        for row in range(ROWS):
+            for col in range(COLS):
+                territory_no = self.territories[row][col]
+                piece = self.get_piece(row, col)
+
+                if type(piece) == Unit:
+                    self.territories_no_pieces[territory_no][piece.id] += piece.power
+
+        # self.territories_no_pieces = [ [None, 300, 300, 300, 400], [None, 300, 600, 300, 100], ...]
+
+        territory_claims = [0 for _ in range(TER_NUM+1)]
+        # skip first array
+        for territory_no in range(1, len(self.territories_no_pieces)):
+            territory = self.territories_no_pieces[territory_no]
+
+            max_power = max(territory)
+            max_counter = 0
+
+            for power in territory:
+                if power == max_power:
+                    max_counter += 1
+
+            if max_counter != 1:
+                owner = 0
+                
+            elif max_counter == 1:
+                owner = territory.index(max_power)
+
+            territory_claims[territory_no] = owner
+
+        return territory_claims # [0, 3, 1, 2, 4, 0, ...]
+
+    def draw_player_territories(self, win):
+        territory_claims = self.get_territories_claimed()
+        for territory_no in range(1, len(territory_claims)):
+            owner = territory_claims[territory_no]
+            for row in range(ROWS):
+                for col in range(COLS):
+                    if self.territories[row][col] == territory_no:
+                        pygame.draw.rect(win, PLAYER_LIGHTER_COLOURS[owner], (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE-1, SQUARE_SIZE-1))
 
     def _territories_do_not_fill_the_board(self, ter_list):
         filled_in_squares = 0

@@ -23,6 +23,7 @@ class Game:
     def update(self):
         """Updates board visuals to pygame window."""
         self.board.draw(self.win, self.current_player_id)
+        self.board.draw_player_territories(self.win)
         self.draw_menu(self.win)
         self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
@@ -108,6 +109,7 @@ class Game:
                     self.board.spawn(self.current_player_id, row, col)
                     self.current_player.reduce_gold(UNIT_COST)
 
+            alist = self.board.get_territories_claimed()
             # This code chunk deselects
             self.selected = None
             self.valid_moves = []
