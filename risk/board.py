@@ -11,7 +11,7 @@ class Board:
         # TERRITORY THINGS
         self.territories = [[None for _ in range(COLS)] for _ in range(ROWS)]
         self.territories_no_pieces = [[0 for _ in range(NO_PLAYERS+1)] for _ in range(TER_NUM+1)]
-        self._create_territories_good()
+        self.ter_list = self._create_territories_good()
 
 
     def __str__(self):
@@ -134,11 +134,12 @@ class Board:
             for territory in ter_list:
                 if not ((len(territory) > (((ROWS*COLS)//TER_NUM)+X)) or (len(territory) < (((ROWS*COLS)//TER_NUM)-X))):
                     good_counter += 1
+        return ter_list
 
     def _draw_territories(self, win):
-        for row in range(ROWS):
-            for col in range(COLS):
-                pygame.draw.rect(win, COLOUR_LIST[self.territories[row][col]-1], (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+        for i in range(len(self.ter_list)):
+            for j in range(len(self.ter_list[i])):
+                pygame.draw.rect(win, (240-(240//(TER_NUM+3))*self.ter_list[i][j][2], 240-(240//(TER_NUM+2))*self.ter_list[i][j][2], 240-(220//(TER_NUM+4))*self.ter_list[i][j][2]), (self.ter_list[i][j][1]*SQUARE_SIZE, self.ter_list[i][j][0]*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
     def draw(self, win, current_player_id):
         """Draws and paints the entire game onto the window."""
