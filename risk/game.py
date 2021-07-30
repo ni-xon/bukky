@@ -43,12 +43,14 @@ class Game:
         self.current_player_id = (self.turn_counter % NO_PLAYERS) + 1
         self.current_player = self.players[self.current_player_id]
 
-    def menu(self, row, col):
+    def menu(self, row):
         """Handles all menu click logic given row, col."""
         # Handler for clicking "next turn" button
         if row == 0:
             self.change_turn()
             self.board.reset_action_points()
+            self.selected = None
+            self.valid_moves = []
 
         return
 
@@ -79,7 +81,7 @@ class Game:
         # Handler for clicking menu
         menu = COLS
         if col == menu:
-            self.menu(row, col) 
+            self.menu(row) 
             return # returns back to main
 
         # Obtain target from click (can either be None or Piece)
