@@ -313,9 +313,9 @@ class Board:
         # Merger gets deleted
         self.delete_piece(merger.row, merger.col)
 
-    def spawn(self, id, row, col):
+    def spawn(self, id, row, col, power=UNIT_POWER):
         """Creates a new Unit object at a desired (row, col)."""
-        self.board[row][col] = Unit(id=id, row=row, col=col, power=100)
+        self.board[row][col] = Unit(id=id, row=row, col=col, power=power)
 
     def reset_action_points(self):
         """Resets action points for all Unit objects on board."""

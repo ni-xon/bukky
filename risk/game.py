@@ -12,6 +12,7 @@ class Game:
     def _init(self):
         """Initialises all required variables and board object for a new game."""
         self.selected = None
+        self.last_selected_piece = None
         self.players = [Player() for i in range(NO_PLAYERS + 1)]
         self.board = Board()
         self.board.create_initial_objects()
@@ -52,6 +53,20 @@ class Game:
             self.selected = None
             self.valid_moves = []
 
+        # SPLIT 
+        elif type(self.selected) == Unit: 
+            if row == 5:
+                self.selected = "split_30_70"
+
+            elif row == 6:
+                self.selected = "split_50_50"
+
+            elif row == 7:
+                self.selected = "split_70_30"
+
+        elif type(self.selected) == Building: 
+            pass
+  
         return
 
     def draw_menu(self, win):
@@ -91,6 +106,7 @@ class Game:
         if self.selected is not None:
             # If selected piece is a Unit object
             if type(self.selected) == Unit:
+                # Move
                 if (row, col) in self.valid_moves and self.board.enough_action_points(self.selected):
                     if target is None:
                         self.board.move(self.selected, row, col)
@@ -104,21 +120,56 @@ class Game:
                     # Subtract an action point for action performed
                     self.selected.action_points -= 1
 
+                # Split
+                elif col == menu:
+                    self.menu(row)
+
             # If selected piece is a Building object
             elif type(self.selected) == Building:
                 if (row, col) in self.valid_moves and self.current_player.gold >= UNIT_COST:
                     self.board.spawn(self.current_player_id, row, col)
                     self.current_player.reduce_gold(UNIT_COST)
 
+            # Do the actual splitting here
+            # VERY NAIVE HERE, FIX LATER
+            elif type(self.selected) == str:
+                if (row, col) in self.valid_moves and self.board.enough_action_points(self.last_selected_piece):
+                    if self.selected == "split_30_70":
+                        self.board.spawn(self.last_selected_piece.id, row, col, self.last_selected_piece.power*0.7)
+                        self.last_selected_piece.power *= 0.3                
+
+                    elif self.selected == "split_50_50":
+                        self.board.spawn(self.last_selected_piece.id, row, col, self.last_selected_piece.power*0.5)
+                        self.last_selected_piece.power *= 0.5
+
+                    elif self.selected == "split_70_30":
+                        self.board.spawn(self.last_selected_piece.id, row, col, self.last_selected_piece.power*0.3)
+                        self.last_selected_piece.power *= 0.7
+
+                    # If click on same split option -> deselect
+                    elif (row, col) == self.selected:
+                        self.selected = None
+
+                    # If click on another split option -> goto menu
+                    elif col == COLS:
+                        self.menu(row)
+
+                    # If we click on a Unit/Building/same_SPLIT/dead_square -> deselect
+                    else:
+                        self.selected = None
+
+            
             # This code chunk deselects
             self.selected = None
             self.valid_moves = []
             return # returns back to main
 
+        
         # If selection is valid (it is a piece that belongs to the current player)
         if target is not None and target.id == self.current_player_id:
             self.selected = target
             self.valid_moves = self.board.get_valid_moves(target)
+            self.last_selected_piece = target
             return True # returns back to main
 
         return False # returns back to main

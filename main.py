@@ -39,6 +39,7 @@ def main():
                 pos = pygame.mouse.get_pos()
                 row, col = get_position_mouse(pos)  
                 game.select(row, col)
+                print(game.selected)
 
         # Update board visuals
         game.update()
