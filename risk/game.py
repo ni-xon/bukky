@@ -180,6 +180,6 @@ class Game:
                 for col in range(COLS):
                     territory_no = self.board.territories[row][col]
                     if self.players2[each_player][territory_no] == 1:
-                        pygame.draw.rect(win, PLAYER_LIGHTER_COLOURS[each_player], (col*SQUARE_SIZE+5, row*SQUARE_SIZE+5, SQUARE_SIZE-10, SQUARE_SIZE-10))
+                        pygame.draw.rect(win, PLAYER_LIGHTER_COLOURS[each_player], (col*SQUARE_SIZE+10, row*SQUARE_SIZE+10, SQUARE_SIZE-20, SQUARE_SIZE-20))
                     
 
