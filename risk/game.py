@@ -65,7 +65,11 @@ class Game:
                 self.selected = "split_70_30"
 
         elif type(self.selected) == Building: 
-            pass
+            if row == 5:
+                self.selected = "split_100_0"
+
+            elif row == 6:
+                self.selected = "split_50_50"
   
         return
 
@@ -130,33 +134,46 @@ class Game:
                     self.board.spawn(self.current_player_id, row, col)
                     self.current_player.reduce_gold(UNIT_COST)
 
+                elif col == menu:
+                    self.menu(row)
+
             # Do the actual splitting here
             # VERY NAIVE HERE, FIX LATER
             elif type(self.selected) == str:
-                if (row, col) in self.valid_moves and self.board.enough_action_points(self.last_selected_piece):
-                    if self.selected == "split_30_70":
-                        self.board.spawn(self.last_selected_piece.id, row, col, self.last_selected_piece.power*0.7)
-                        self.last_selected_piece.power *= 0.3                
+                if type(self.last_selected_piece) == Unit: 
+                    if (row, col) in self.valid_moves and self.board.enough_action_points(self.last_selected_piece):
+                        if self.selected == "split_30_70":
+                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.7))
+                            self.last_selected_piece.power = round(self.last_selected_piece.power*0.3)            
 
-                    elif self.selected == "split_50_50":
-                        self.board.spawn(self.last_selected_piece.id, row, col, self.last_selected_piece.power*0.5)
-                        self.last_selected_piece.power *= 0.5
+                        elif self.selected == "split_50_50":
+                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.5))
+                            self.last_selected_piece.power = round(self.last_selected_piece.power*0.5)
 
-                    elif self.selected == "split_70_30":
-                        self.board.spawn(self.last_selected_piece.id, row, col, self.last_selected_piece.power*0.3)
-                        self.last_selected_piece.power *= 0.7
+                        elif self.selected == "split_70_30":
+                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.3))
+                            self.last_selected_piece.power = round(self.last_selected_piece.power*0.7)
 
-                    # If click on same split option -> deselect
-                    elif (row, col) == self.selected:
-                        self.selected = None
+                        # If click on same split option -> deselect
+                        elif (row, col) == self.selected:
+                            self.selected = None
 
-                    # If click on another split option -> goto menu
-                    elif col == COLS:
-                        self.menu(row)
+                        # If click on another split option -> goto menu
+                        elif col == COLS:
+                            self.menu(row)
 
-                    # If we click on a Unit/Building/same_SPLIT/dead_square -> deselect
-                    else:
-                        self.selected = None
+                        # If we click on a Unit/Building/same_SPLIT/dead_square -> deselect
+                        else:
+                            self.selected = None
+
+                if type(self.last_selected_piece) == Building: 
+                    if self.selected == "split_50_50" and (row, col) in self.valid_moves:
+                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.5))
+                            self.last_selected_piece.power = round(self.last_selected_piece.power*0.5)
+
+                    if self.selected == "split_100_0" and (row, col) in self.valid_moves:
+                            self.board.spawn(self.last_selected_piece.id, row, col, self.last_selected_piece.power)
+                            self.last_selected_piece.power = 0
 
             
             # This code chunk deselects
