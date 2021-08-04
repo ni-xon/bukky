@@ -43,7 +43,7 @@ class Game:
             row, col = move
             pygame.draw.rect(self.win, PLAYER_COLOURS[self.current_player_id], (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 2)
     
-    def interest_per_turn(self):
+    def gold_per_turn(self):
         # gold per turn and interest
         if self.current_player.gold <= 15:
             self.current_player.gold += (self.current_player.gold // 5) * self.default_gold
@@ -53,17 +53,19 @@ class Game:
         self.current_player.gold += self.default_gold
         self.current_player.gold += self.players2[self.current_player_id].count(1) * self.gold_per_territory
 
-
     def change_turn(self):
         """Switches to the next player's turn."""
-        
-        self.interest_per_turn()
-
         #change turns
         self.turn_counter += 1
         self.current_player_id = (self.turn_counter % NO_PLAYERS) + 1
         self.current_player = self.players[self.current_player_id]
-        
+
+        #skips the first turns of each palyer for gold
+        intial_turns = [1,2,3]
+        if self.turn_counter in intial_turns:
+            pass
+        else:
+            self.gold_per_turn()
 
     def menu(self, row):
         """Handles all menu click logic given row, col."""
