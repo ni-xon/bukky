@@ -19,8 +19,10 @@ class Game:
         self.current_player_id = 1
         self.current_player = self.players[self.current_player_id]   # Initially points to first player object
         self.turn_counter = 0
+        self.default_gold = 2
+        self.gold_per_territory = 4
         self.valid_moves = []
-        self.players2 = [[0 for _ in range(TER_NUM+1)] for i in range(NO_PLAYERS + 1)]
+        self.players2 = [[0 for _ in range(TER_NUM+1)] for i in range(NO_PLAYERS + 1)] # [[territories],[0,1,0,0,0,0,0],[]]
 
     def update(self):
         """Updates board visuals to pygame window."""
@@ -41,11 +43,27 @@ class Game:
             row, col = move
             pygame.draw.rect(self.win, PLAYER_COLOURS[self.current_player_id], (col*SQUARE_SIZE, row*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 2)
     
+    def interest_per_turn(self):
+        # gold per turn and interest
+        if self.current_player.gold <= 15:
+            self.current_player.gold += (self.current_player.gold // 5) * self.default_gold
+        else:
+            self.current_player.gold += 6
+
+        self.current_player.gold += self.default_gold
+        self.current_player.gold += self.players2[self.current_player_id].count(1) * self.gold_per_territory
+
+
     def change_turn(self):
         """Switches to the next player's turn."""
+        
+        self.interest_per_turn()
+
+        #change turns
         self.turn_counter += 1
         self.current_player_id = (self.turn_counter % NO_PLAYERS) + 1
         self.current_player = self.players[self.current_player_id]
+        
 
     def menu(self, row):
         """Handles all menu click logic given row, col."""
@@ -169,16 +187,19 @@ class Game:
                 if type(self.last_selected_piece) == Unit: 
                     if (row, col) in self.valid_moves and self.board.enough_action_points(self.last_selected_piece):
                         if self.selected == "split_30_70":
-                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.7))
+                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.7), self.last_selected_piece.action_points-1)                        
                             self.last_selected_piece.power = round(self.last_selected_piece.power*0.3)            
+                            self.last_selected_piece.action_points -= 1
 
                         elif self.selected == "split_50_50":
-                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.5))
+                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.5), self.last_selected_piece.action_points-1)
                             self.last_selected_piece.power = round(self.last_selected_piece.power*0.5)
+                            self.last_selected_piece.action_points -= 1
 
                         elif self.selected == "split_70_30":
-                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.3))
+                            self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.3), self.last_selected_piece.action_points-1)
                             self.last_selected_piece.power = round(self.last_selected_piece.power*0.7)
+                            self.last_selected_piece.action_points -= 1
 
                         # If click on same split option -> deselect
                         elif (row, col) == self.selected:

@@ -30,10 +30,10 @@ class Building(Piece):
 
 
 class Unit(Piece):
-    def __init__(self, id, row, col, power):
+    def __init__(self, id, row, col, power, action_points=2):
         super(Unit, self).__init__(id, row, col, power)
         self.initial_action_points = 2
-        self.action_points = 2
+        self.action_points = action_points
         self.calc_pos()
 
     def calc_pos(self):

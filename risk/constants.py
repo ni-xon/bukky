@@ -2,7 +2,7 @@ import pygame
 import random
 
 
-ROWS, COLS = 8, 8
+ROWS, COLS = 12, 12
 HEIGHT = 800
 WIDTH = (HEIGHT // ROWS) + HEIGHT
 SQUARE_SIZE = HEIGHT // COLS
@@ -41,7 +41,7 @@ for _ in range(TER_NUM):
     COLOUR_LIST.append(tuple(random.choices(range(256), k=3)))
 
 # PIECE COSTS
-UNIT_COST = 20
+UNIT_COST = 4
 
 # DEFAULT POWER VALUES
 BUILDING_POWER = 500
