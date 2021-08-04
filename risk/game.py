@@ -107,13 +107,13 @@ class Game:
             self.board.write_on_board(win, "70:30", YELLOW, left_x, (SQUARE_SIZE*7) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
 
         elif type(self.selected) == Building:
-            # Draw 30:70
-            pygame.draw.rect(win, BLACK, ((COLS*SQUARE_SIZE)-1,5*SQUARE_SIZE,SQUARE_SIZE+1,SQUARE_SIZE+1))
-            self.board.write_on_board(win, "50:50", YELLOW, left_x, (SQUARE_SIZE*5) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
-
             # Draw 50:50
             pygame.draw.rect(win, BLACK, ((COLS*SQUARE_SIZE)-1,6*SQUARE_SIZE,SQUARE_SIZE+1,SQUARE_SIZE+1))
-            self.board.write_on_board(win, "100:0", YELLOW, left_x, (SQUARE_SIZE*6) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+            self.board.write_on_board(win, "50:50", YELLOW, left_x, (SQUARE_SIZE*6) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
+
+            # Draw 100:0
+            pygame.draw.rect(win, BLACK, ((COLS*SQUARE_SIZE)-1,5*SQUARE_SIZE,SQUARE_SIZE+1,SQUARE_SIZE+1))
+            self.board.write_on_board(win, "100:0", YELLOW, left_x, (SQUARE_SIZE*5) + (SQUARE_SIZE//2.5), (SQUARE_SIZE//4))
             
         # Draw currently selected
         self.board.write_on_board(win, "SELECT:", WHITE, left_x, (SQUARE_SIZE*4) + (SQUARE_SIZE//15), (SQUARE_SIZE//4))
