@@ -186,8 +186,8 @@ class Game:
             # Do the actual splitting here
             # VERY NAIVE HERE, FIX LATER
             elif type(self.selected) == str:
-                if type(self.last_selected_piece) == Unit: 
-                    if (row, col) in self.valid_moves and self.board.enough_action_points(self.last_selected_piece):
+                if type(self.last_selected_piece) == Unit and self.last_selected_piece.power != 1:
+                    if (row, col) in self.valid_moves and self.board.enough_action_points(self.last_selected_piece) and target is None:
                         if self.selected == "split_30_70":
                             self.board.spawn(self.last_selected_piece.id, row, col, round(self.last_selected_piece.power*0.7), self.last_selected_piece.action_points-1)                        
                             self.last_selected_piece.power = round(self.last_selected_piece.power*0.3)            
