@@ -7,7 +7,7 @@ from risk.game import *
 # Initial settings
 FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('FRISK')
+pygame.display.set_caption('Bukky')
 
 def get_position_mouse(pos):
     """Takes in a pos tuple (x, y) and returns appropriate (row, col) tuple according to board."""
