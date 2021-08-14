@@ -5,6 +5,9 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+
+[![Product Name Screen Shot][product-screenshot]]
+
 Bukky is a 2D grid conquest style game between 2-4 players. This project was undertaken by a group of friends to create a minimum viable product (prototype) for a Unity game that is currently still in progress. The main goals of the project were to and to explore the possibilities of the pygame library and to implement Object Oriented programming (OOP) paradigm. 
 
 ### Built With
