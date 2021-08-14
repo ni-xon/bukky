@@ -1,5 +1,4 @@
 [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![MIT License][license-shield]][license-url]
 
@@ -7,11 +6,11 @@
 ## About The Project
 
 
-Bukky is a 2D grid conquest style game between 2-4 players. This project was undertaken by a group of friends to create a minimum viable product (prototype) for a Unity game that is currently still in progress. The main goals of the project were to and to explore the possibilities of the pygame library and to implement Object Oriented programming (OOP) paradigm. 
+Bukky is a A 2D turn-based strategy game played between 2-4 players. This project was undertaken by a group of friends to create a minimum viable product (prototype) for a Unity game that is currently still in progress. The main goals of the project were to and to explore the possibilities of the pygame library and to implement Object Oriented programming (OOP) paradigm. 
 
 <br>
 <p>
-  <img  src="https://raw.github.com/ni-xon/bukky/master/images/game-screenshot.jpg">
+  <img src="https://raw.github.com/ni-xon/bukky/master/images/game-screenshot.jpg">
 </p>
 
 ### Built With
@@ -32,11 +31,9 @@ The game is currently at a playable stage. Future plans include:
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/ni-xon/bukky.svg?style=for-the-badge
+[contributors-url]: https://github.com/ni-xon/bukky/graphs/contributors
+[stars-shield]: https://img.shields.io/github/stars/ni-xon/bukky.svg?style=for-the-badge
+[stars-url]: https://github.com/ni-xon/bukky/stargazers
+[license-shield]: https://img.shields.io/github/license/ni-xon/bukky.svg?style=for-the-badge
+[license-url]: https://github.com/ni-xon/bukky/blob/master/LICENSE
