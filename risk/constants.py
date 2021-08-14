@@ -2,7 +2,7 @@ import pygame
 import random
 
 
-ROWS, COLS = 8,8
+ROWS, COLS = 12,12
 HEIGHT = 800
 WIDTH = (HEIGHT // ROWS) + HEIGHT
 SQUARE_SIZE = HEIGHT // COLS
