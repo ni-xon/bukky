@@ -6,7 +6,7 @@
 ## About The Project
 
 
-Bukky is a A 2D turn-based strategy game played between 2-4 players. This project was undertaken by a group of friends to create a minimum viable product (prototype) for a Unity game that is currently still in progress, using the Object Oriented Programming (OOP) paradigm. 
+Bukky is a A 2D turn-based strategy game played between 2-4 players. This project was undertaken by a group of friends to create a minimum viable product (prototype) for a Unity game that is currently still in development. The game is implemented using the Object Oriented Programming (OOP) paradigm. 
 
 <br>
 <p>
