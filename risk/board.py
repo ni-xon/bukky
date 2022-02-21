@@ -128,7 +128,8 @@ class Board:
                         if object.id == current_player_id:
                             self.write_on_board(win, object.action_points, WHITE, object.x - (SQUARE_SIZE//4), object.y - (SQUARE_SIZE//32), (SQUARE_SIZE//3))
                         self.write_on_board(win, object.power, WHITE, object.x - (SQUARE_SIZE//4), object.y - (SQUARE_SIZE//4), (SQUARE_SIZE//3))
-
+                        
+    #function to write text on the board                    
     def write_on_board(self, win, string, colour, x, y, size):
         pygame.init()
         number_font = pygame.font.Font(None, size)
